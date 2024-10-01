@@ -23,49 +23,14 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   };
 
   const toggleMusic = () => {
-    const music = document.getElementById(
-      "background-music"
-    ) as HTMLAudioElement;
     if (musicPlaying) {
-      music.pause();
     } else {
-      music.play();
     }
     setMusicPlaying(!musicPlaying);
   };
 
   return (
     <div className={styles.panel}>
-      <div className={styles.betControls}>
-        <button
-          onClick={() => {
-            onBetDecrease();
-            playSound();
-          }}
-          className={styles.button}
-        >
-          -
-        </button>
-        <span className={styles.betText}>Bet: ${currentBet}</span>
-        <button
-          onClick={() => {
-            onBetIncrease();
-            playSound();
-          }}
-          className={styles.button}
-        >
-          +
-        </button>
-      </div>
-      <button
-        onClick={() => {
-          onSpin();
-          playSound();
-        }}
-        className={styles.spinButton}
-      >
-        Spin
-      </button>
       <div className={styles.buttonControls}>
         <button onClick={toggleMusic} className={styles.musicButton}>
           {musicPlaying ? "Mute Music" : "Play Music"}
@@ -82,6 +47,39 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
         >
           Home
         </button>
+      </div>
+
+      <div className={styles.spinControl}>
+        <div className={styles.betControls}>
+          <button
+            onClick={() => {
+              onBetDecrease();
+              playSound();
+            }}
+            className={styles.button}
+          >
+            -
+          </button>
+          <span className={styles.betText}>Bet: ${currentBet}</span>
+          <button
+            onClick={() => {
+              onBetIncrease();
+              playSound();
+            }}
+            className={styles.button}
+          >
+            +
+          </button>
+          <button
+            onClick={() => {
+              onSpin();
+              playSound();
+            }}
+            className={styles.spinButton}
+          >
+            Spin
+          </button>
+        </div>
       </div>
     </div>
   );

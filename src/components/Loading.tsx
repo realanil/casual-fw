@@ -9,6 +9,12 @@ interface LoadingProps {
 const Loading: React.FC<LoadingProps> = ({ progress }) => {
   return (
     <div className={styles.loadingContainer}>
+      {/* <img
+        src="/background/loading.webp"
+        alt="Background"
+        className={styles.background}
+      /> */}
+
       <div className={styles.progressBar}>
         <div
           className={styles.progressFill}

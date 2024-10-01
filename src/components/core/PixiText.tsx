@@ -36,9 +36,10 @@ const PixiText: React.FC<textProps> = ({ text, x, y, name }) => {
   skewText.x = x;
   skewText.y = y;
   // Add a custom property to store the name
-  skewText.name = name;
+  // skewText.name = name;
   skewText.label = name;
   const pt: any = app.stage.getChildByLabel(skewText.label);
+  console.log("assets 2=>");
   if (pt) {
     pt.text = text;
     // pt.visible = false;
