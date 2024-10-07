@@ -28,29 +28,88 @@ const manifest = {
         {
             name: 'load-screen',
             assets: [
-                {
-                    alias: 'background',
-                    src: '/background/bg.webp',
-                },
+                // {
+                //     alias: 'background',
+                //     src: '/assets/bg.jpeg',
+                // },
+                // {
+                //     alias: 'reel_fxPM',
+                //     src: '/animations/reel_fx/reel_fx.png',
+                // },
                 // {
                 //     alias: 'bar',
                 //     src: 'load-bar.{png,webp}',
                 // },
             ],
         },
-        // {
-        //     name: 'game-screen',
-        //     assets: [
-        //         {
-        //             alias: 'character',
-        //             src: 'robot.png',
-        //         },
-        //         {
-        //             alias: 'enemy',
-        //             src: 'bad-guy.png',
-        //         },
-        //     ],
-        // },
+        {
+            name: 'intro-screen',
+            assets: [
+                {
+                    alias: 'introScreen',
+                    src: '/assets/introScreen.jpg',
+                }
+            ],
+
+        },
+        {
+            name: 'game-screen',
+            assets: [
+                {
+                    alias: 'reel',
+                    src: '/assets/reel.webp',
+                },
+                {
+                    alias: 'rightArrow',
+                    src: '/assets/rightArrow.png',
+                },
+                {
+                    alias: 'cardImg',
+                    src: '/assets/hand-cards-trump-spades.webp',
+                },
+                {
+                    alias: 'reel_fx_spine',
+                    src: '/animations/reel_fx/reel_fx.json',
+                },
+                {
+                    alias: 'wild_skel',
+                    src: '/animations/wild/wild.skel',
+                },
+                {
+                    alias: 'wild_atlas',
+                    src: '/animations/wild/wild.atlas',
+                },
+                {
+                    alias: 'spineboyData',
+                    src: '/assets/spineboy-pro.skel',
+                },
+                {
+                    alias: 'spineboyAtlas',
+                    src: '/assets/spineboy-pma.atlas',
+                },
+                // {
+                //     alias: 'lemon',
+                //     src: '/lemon/lemon.png',
+                // },
+                // {
+                //     alias: 'lemonSkl',
+                //     src: '/lemon/lemon.skel',
+                // },
+                // {
+                //     alias: 'lemonAtlas',
+                //     src: '/lemon/lemon.atlas',
+                // },
+                {
+                    alias: 'lemonSkl',
+                    src: '/win/win_texts.skel',
+                },
+                {
+                    alias: 'lemonAtlas',
+                    src: '/win/win_texts.atlas',
+                }
+            ],
+            
+        },
     ]
 };
   export default manifest;

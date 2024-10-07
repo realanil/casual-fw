@@ -14,6 +14,12 @@ export const loadAssets = (): Promise<void> => {
     await Assets.loadBundle('load-screen', onProgress).then((onProgress)=>{
       console.log("onProgress=>", onProgress)
     });
+    await Assets.loadBundle('intro-screen', onProgress).then((onProgress)=>{
+      console.log("onProgress=>", onProgress)
+    });
+    await Assets.loadBundle('game-screen', onProgress).then((onProgress)=>{
+      console.log("game-screen onProgress=>", onProgress)
+    });
     // console.log("loadScreenAssets=>", loadScreenAssets)
     // Bundles can be loaded in the background too!
     // await Assets.backgroundLoadBundle(bundleNames);

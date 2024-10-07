@@ -60,7 +60,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
           >
             -
           </button>
-          <span className={styles.betText}>Bet: ${currentBet}</span>
+          <span className={styles.betText}>Bet: {currentBet}</span>
           <button
             onClick={() => {
               onBetIncrease();
@@ -77,7 +77,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
             }}
             className={styles.spinButton}
           >
-            Spin
+            Bet
           </button>
         </div>
       </div>

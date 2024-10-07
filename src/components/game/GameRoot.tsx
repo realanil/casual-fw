@@ -8,18 +8,20 @@ const GameRoot: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
   const [currentBet, setCurrentBet] = useState(1);
+  const [introScreen, setIntroScreen] = useState<boolean>(false);
 
   const handleSpin = () => {
     console.log(`Spinning with bet: $${currentBet}`);
+    alert("working on this....");
     // Add your spinning logic here
   };
 
   const handleBetIncrease = () => {
-    setCurrentBet((prevBet) => prevBet + 1);
+    // setCurrentBet((prevBet) => prevBet + 1);
   };
 
   const handleBetDecrease = () => {
-    setCurrentBet((prevBet) => (prevBet > 1 ? prevBet - 1 : 1));
+    // setCurrentBet((prevBet) => (prevBet > 1 ? prevBet - 1 : 1));
   };
 
   useEffect(() => {
@@ -49,14 +51,16 @@ const GameRoot: React.FC = () => {
   return (
     <div id="gameCover">
       <div style={{ display: "flex", justifyContent: "center" }}>
-        <ButtonPanel
-          onSpin={handleSpin}
-          onBetIncrease={handleBetIncrease}
-          onBetDecrease={handleBetDecrease}
-          currentBet={currentBet}
-        />
+        {introScreen && (
+          <ButtonPanel
+            onSpin={handleSpin}
+            onBetIncrease={handleBetIncrease}
+            onBetDecrease={handleBetDecrease}
+            currentBet={currentBet}
+          />
+        )}
       </div>
-      <PixiCanvas />
+      <PixiCanvas introScreen={introScreen} setIntroScreen={setIntroScreen} />
     </div>
   );
 };

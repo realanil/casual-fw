@@ -1,0 +1,27 @@
+
+reel_fx.png
+size: 313,95
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+fire_right_2
+  rotate: true
+  xy: 2, 2
+  size: 91, 277
+  orig: 91, 290
+  offset: 0, 13
+  index: -1
+gargoyle_left_eyes
+  rotate: true
+  xy: 281, 16
+  size: 37, 30
+  orig: 39, 33
+  offset: 1, 2
+  index: -1
+gargoyle_right_eyes
+  rotate: true
+  xy: 281, 55
+  size: 38, 30
+  orig: 40, 33
+  offset: 1, 2
+  index: -1

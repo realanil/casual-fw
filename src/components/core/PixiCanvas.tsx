@@ -1,10 +1,15 @@
-import { app } from "@/pages";
+// import { app } from "@/pages";
 
+import { usePixi } from "@/context/PixiContext";
 import { Application, Text } from "pixi.js";
 import { useEffect, useRef } from "react";
 import Layout from "../Layout";
-
-const PixiCanvas: React.FC = () => {
+interface PixiCanvasProps {
+  introScreen: boolean;
+  setIntroScreen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
+  const app = usePixi().app;
   const canvasRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
 
@@ -74,7 +79,10 @@ const PixiCanvas: React.FC = () => {
         zIndex: 0,
       }}
     >
-      <Layout />
+      <Layout
+        introScreen={props.introScreen}
+        setIntroScreen={props.setIntroScreen}
+      />
     </div>
   );
 };
