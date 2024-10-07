@@ -47,7 +47,7 @@ const manifest = {
             assets: [
                 {
                     alias: 'introScreen',
-                    src: '/assets/introScreen.jpg',
+                    src: '/assets/introScreen.webp',
                 }
             ],
 

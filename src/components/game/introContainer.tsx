@@ -101,16 +101,16 @@ const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
     <>
       <PixiSprite label="introScreen" />
       <PixiText
-        text="Welcome to the game! Press Start to begin."
-        x={700}
+        text="Welcome to the game!"
+        x={800}
         y={280}
-        textSize={24}
+        textSize={42}
         name="introTitle"
       />
       <PixiText
         text="Continue"
-        x={850}
-        y={580}
+        x={950}
+        y={600}
         textSize={24}
         name="continueBtn"
         cursor={true}

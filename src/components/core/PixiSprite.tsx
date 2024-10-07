@@ -44,6 +44,7 @@ const PixiSprite: React.FC<spriteInterface> = (props) => {
     loadContent.scale.y = scaleY ? scaleY : 1;
     if (label == "introScreen") {
       loadContent.width = 1920;
+      loadContent.height = 945;
     }
   } else {
     const sprite: any = PIXI.Sprite.from(label);
@@ -83,6 +84,7 @@ const PixiSprite: React.FC<spriteInterface> = (props) => {
     });
     if (label == "introScreen") {
       sprite.width = 1920;
+      sprite.height = 945;
     }
   }
 
