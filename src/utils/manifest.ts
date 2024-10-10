@@ -48,6 +48,10 @@ const manifest = {
                 {
                     alias: 'introScreen',
                     src: '/assets/introScreen.webp',
+                },
+                {
+                    alias: 'bgL',
+                    src: '/assets/introScreen.webp',
                 }
             ],
 

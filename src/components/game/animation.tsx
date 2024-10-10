@@ -2,7 +2,7 @@ import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-import Sprite from "../core/Sprite";
+import Spine from "../core/Spine";
 
 const spriteObj = {
   texture: "/assets/hand-cards-trump-spades.webp",
@@ -13,7 +13,7 @@ const spriteObj = {
   label: "cardImg",
   cursor: true,
 };
-const Card: React.FC = () => {
+const Animation: React.FC = () => {
   const app = usePixi().app;
   const containerRef = useRef<PIXI.Container | null>(null);
   const [parentConRef, setParentConRef] = useState<PIXI.Container | null>(null);
@@ -24,7 +24,7 @@ const Card: React.FC = () => {
       PIXI,
       app,
       containerRef,
-      "CardContainer",
+      "Animation",
       null
     );
     const container = continerRef.current;
@@ -35,10 +35,10 @@ const Card: React.FC = () => {
     <>
       {!parentConRef ? null : (
         <>
-          <Sprite {...spriteObj} app={app} container={parentConRef} />
+          <Spine {...spriteObj} app={app} container={parentConRef} />
         </>
       )}
     </>
   );
 };
-export default Card;
+export default Animation;

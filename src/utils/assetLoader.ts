@@ -12,13 +12,13 @@ export const loadAssets = (): Promise<void> => {
     // Black js magic to extract the bundle names into an array.
     // const bundleNames = manifest.bundles.map(b => b.name);
     await Assets.loadBundle('load-screen', onProgress).then((onProgress)=>{
-      console.log("onProgress=>", onProgress)
+      // console.log("onProgress=>", onProgress)
     });
     await Assets.loadBundle('intro-screen', onProgress).then((onProgress)=>{
-      console.log("onProgress=>", onProgress)
+      // console.log("onProgress=>", onProgress)
     });
     await Assets.loadBundle('game-screen', onProgress).then((onProgress)=>{
-      console.log("game-screen onProgress=>", onProgress)
+      // console.log("game-screen onProgress=>", onProgress)
     });
     // console.log("loadScreenAssets=>", loadScreenAssets)
     // Bundles can be loaded in the background too!
@@ -34,7 +34,7 @@ export const loadAssets = (): Promise<void> => {
   });
 };
 const onProgress = (res: any) => {
-  console.log("res=>", res)
+  // console.log("res=>", res)
 }
 export const getAsset = (name: string) => {
   return Assets.get(name);

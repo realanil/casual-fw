@@ -11,30 +11,23 @@ interface spriteInterface {
   cursor?: boolean;
 }
 
+// interface SpriteProps {
+//   spriteObj: {
+//     label: string;
+//     x?: number;
+//     y?: number;
+//     scaleX?: number;
+//     scaleY?: number;
+//     cursor?: boolean;
+//   };
+// }
 const PixiSprite: React.FC<spriteInterface> = (props) => {
   const { label, x, y, scaleX, scaleY, cursor } = props;
+  console.log("PixiSprite=>", props);
   const app = usePixi().app;
   const container: any = new PIXI.Container();
   container.label = label; // Assign a name to the container
-  /* const pixiContainer = useRef<HTMLDivElement | null>(null);
-  const appRef = useRef<PIXI.Application | null>(null);
-  // Load an image and add it to the stage
-  const texture = PIXI.Texture.from("/background/bg.webp"); // Replace with your image path
-  const sprite = new PIXI.Sprite(texture);
 
-  // Center the sprite's anchor point
-  sprite.anchor.set(0.5);
-  sprite.x = app.screen.width / 2;
-  sprite.y = app.screen.height / 2;
-
-  // Add the sprite to the stage
-  app.stage.addChild(sprite);*/
-
-  // Use the loader to load assets
-  // Start loading right away and create a promise
-
-  // loadAssets().then(async () => {
-  // const assets = await Assets.loadBundle("load-screen");
   const loadContent = app.stage.getChildByLabel(label);
   if (loadContent) {
     loadContent.label = label;
@@ -74,7 +67,7 @@ const PixiSprite: React.FC<spriteInterface> = (props) => {
 
     // app.stage.addChild(sprite);
     container.addChild(sprite);
-    app.stage.addChild(container);
+    // app.stage.addChild(container);
     cursor &&
       sprite.on("pointerover", () => {
         app.renderer.canvas.style.cursor = "pointer"; // Change to pointer cursor
@@ -106,8 +99,8 @@ const PixiSprite: React.FC<spriteInterface> = (props) => {
 
     app.stage.addChild(bunny);
   });*/
-
-  return null;
+  return container;
+  // return null;
 };
 
 export default PixiSprite;

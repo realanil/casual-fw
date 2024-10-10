@@ -17,11 +17,11 @@ const GameRoot: React.FC = () => {
   };
 
   const handleBetIncrease = () => {
-    // setCurrentBet((prevBet) => prevBet + 1);
+    setCurrentBet((prevBet) => prevBet + 1);
   };
 
   const handleBetDecrease = () => {
-    // setCurrentBet((prevBet) => (prevBet > 1 ? prevBet - 1 : 1));
+    setCurrentBet((prevBet) => (prevBet > 1 ? prevBet - 1 : 1));
   };
 
   useEffect(() => {

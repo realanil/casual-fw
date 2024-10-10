@@ -4,6 +4,7 @@ import { usePixi } from "@/context/PixiContext";
 import { Application, Text } from "pixi.js";
 import { useEffect, useRef } from "react";
 import Layout from "../Layout";
+// import Sprite from "./Sprite";
 interface PixiCanvasProps {
   introScreen: boolean;
   setIntroScreen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,7 +15,7 @@ const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
   const appRef = useRef<Application | null>(null);
 
   const textRef = useRef<Text | null>(null);
-  console.log("appRef=>", appRef, canvasRef, textRef);
+  // console.log("appRef=>", appRef, canvasRef, textRef);
   useEffect(() => {
     const appConst = async () => {
       // appRef.current = await app.init({ background: "#1099bb", resizeTo: window });
@@ -63,12 +64,33 @@ const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
 
       // console.log("text name is=>", showtext);
       // Clean up the PixiJS app when the component is unmounted
+      // return () => {
+      //   app.destroy(true, { children: true });
+      // };
       return () => {
-        app.destroy(true, { children: true });
+        app.destroy(true, { children: true, texture: true, baseTexture: true });
       };
     };
     appConst();
   }, []);
+  // const [spriteProps, setSpriteProps] = useState({
+  //   texture: "/assets/introScreen.webp", // Initial sprite texture
+  //   x: 100,
+  //   y: 100,
+  //   scaleX: 1,
+  //   scaleY: 1,
+  //   cursor: true,
+  //   label: "BgImg",
+  // });
+  // const updateSprite = () => {
+  //   setSpriteProps((prev) => ({
+  //     ...prev,
+  //     x: Math.random() * 100, // Update x position to a random value
+  //     y: Math.random() * 220, // Update y position to a random value
+  //     scaleX: Math.random() * 2, // Random scale X
+  //     scaleY: Math.random() * 2, // Random scale Y
+  //   }));
+  // };
   return (
     <div
       ref={canvasRef}
@@ -79,6 +101,8 @@ const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
         zIndex: 0,
       }}
     >
+      {/* <Sprite {...spriteProps} app={app} />
+      <button onClick={updateSprite}>Update Sprite</button> */}
       <Layout
         introScreen={props.introScreen}
         setIntroScreen={props.setIntroScreen}
