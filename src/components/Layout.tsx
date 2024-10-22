@@ -27,14 +27,41 @@ const fontStyle = {
 };
 const textObj = {
   fontStyle: fontStyle,
-  x: 850, //window.innerWidth / 2,
-  y: 100, //window.innerHeight / 2,
+  x: -114, //window.innerWidth / 2,
+  y: -332, //window.innerHeight / 2,
   cursor: false,
   scaleX: 1,
   scaleY: 1,
 };
+const dataConfiguraton: any = {
+  mobile: {
+    gameTitle: {
+      fontStyle: fontStyle,
+      x: -114, //window.innerWidth / 2,
+      y: -332, //window.innerHeight / 2,
+      cursor: false,
+      scaleX: 1,
+      scaleY: 1,
+    },
+  },
+  desktop: {
+    container: {
+      x: 960,
+      y: 472.5,
+    },
+    gameTitle: {
+      fontStyle: fontStyle,
+      x: -114, //window.innerWidth / 2,
+      y: -332, //window.innerHeight / 2,
+      cursor: false,
+      scaleX: 1,
+      scaleY: 1,
+    },
+  },
+};
 const Layout: React.FC<layoutInterface> = (props) => {
-  const app = usePixi().app;
+  const { app, device } = usePixi();
+  const [deviceConfig] = useState(dataConfiguraton[device]);
   const containerRef = useRef<PIXI.Container | null>(null);
   const [parentConRef, setParentConRef] = useState<PIXI.Container | null>(null);
   useEffect(() => {
@@ -46,6 +73,10 @@ const Layout: React.FC<layoutInterface> = (props) => {
       null
     );
     const container = continerRef.current;
+    if (deviceConfig?.container) {
+      container.x = deviceConfig.container.x;
+      container.y = deviceConfig.container.y;
+    }
     setParentConRef(container);
   }, []);
 
@@ -60,7 +91,7 @@ const Layout: React.FC<layoutInterface> = (props) => {
       {props.introScreen && (
         <>
           <Text
-            TextStyle={textObj}
+            TextStyle={deviceConfig?.gameTitle}
             title={"Game Title"}
             label={"gameTitle"}
             app={app}

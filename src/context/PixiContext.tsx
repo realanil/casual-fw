@@ -4,19 +4,35 @@ import React, { ReactNode, createContext, useContext, useRef } from "react";
 interface PixiContextType {
   renderer: PIXI.Renderer | null;
   app?: any;
+  appRef?: any;
+  device: string;
 }
 
 interface PixiProviderProps {
   children: ReactNode; // Accept children as a prop
   app: any;
+  appRef: any;
+  device: string;
 }
 const PixiContext = createContext<PixiContextType | undefined>(undefined);
 
 // const PixiProvider: React.FC = ({ children }) => {
-const PixiProvider: React.FC<PixiProviderProps> = ({ children, app }) => {
+const PixiProvider: React.FC<PixiProviderProps> = ({
+  children,
+  app,
+  appRef,
+  device,
+}) => {
   const rendererRef = useRef<PIXI.Renderer | null>(null);
   return (
-    <PixiContext.Provider value={{ renderer: rendererRef.current, app: app }}>
+    <PixiContext.Provider
+      value={{
+        renderer: rendererRef.current,
+        app: app,
+        appRef: appRef,
+        device: device,
+      }}
+    >
       {children}
     </PixiContext.Provider>
   );

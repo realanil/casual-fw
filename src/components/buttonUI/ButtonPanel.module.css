@@ -10,6 +10,17 @@
     z-index: 1;
     color: #fff;
 }
+.balance {
+    display: block;
+    position: absolute;
+    top: 10%;
+    width: 10%;
+}
+@media screen and (max-width: 800px) {
+.panel {
+    display: flex;
+}
+}
 .betControls {
     display: flex;
     align-items: center;
@@ -65,4 +76,14 @@
 }
 .spinControl{
     width: 70%;
+}
+.winUl{
+    display: flex; 
+    list-style-type: none; 
+    padding: 0;
+}
+.winUl li{
+    background-color: #28a745;
+    padding: 5px;
+    margin: 2px;
 }

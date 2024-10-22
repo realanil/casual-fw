@@ -40,7 +40,7 @@ const Background: React.FC = () => {
       "BG",
       null
     );
-    console.log("data.containerRef=>", continerRef.current);
+    // console.log("data.containerRef=>", continerRef.current);
     const container = continerRef.current;
     // console.log("container=>", container);
     /*const { parentContainer, childContainerRef } = createContainer(

@@ -2,54 +2,130 @@ import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-import Sprite from "../core/Sprite";
 import Text from "../core/Text";
+
 // Function to create the intro screen
 interface IntroContainerInterface {
   introScreen: boolean;
   setIntroScreen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const spriteObj = {
-  texture: "/assets/introScreen.webp",
-  x: 0,
-  y: 0,
-  scaleX: 4,
-  scaleY: 3.5,
-  label: "introScreen",
-  cursor: false,
-};
-const fontStyle = {
-  fontFamily: "Arial",
-  dropShadow: {
-    alpha: 0.8,
-    angle: 2.1,
-    blur: 4,
-    color: "0x111111",
-    distance: 10,
+
+const dataConfiguraton: any = {
+  mobile: {
+    introScreenSprite: {
+      texture: "/assets/introScreen.webp",
+      x: -950,
+      y: -467,
+      scaleX: 1,
+      scaleY: 1,
+      label: "introScreen",
+      cursor: false,
+    },
+    introTitle: {
+      fontStyle: {
+        fontFamily: "Arial",
+        dropShadow: {
+          alpha: 0.8,
+          angle: 2.1,
+          blur: 4,
+          color: "0x111111",
+          distance: 10,
+        },
+        fill: "#ffffff",
+        stroke: { color: "gray", width: 12, join: "round" },
+        fontSize: 24,
+        fontWeight: "lighter",
+      },
+      x: 70,
+      y: 50,
+      cursor: false,
+      scaleX: 1,
+      scaleY: 1,
+    },
+    continueBtn: {
+      fontStyle: {
+        fontFamily: "Arial",
+        dropShadow: {
+          alpha: 0.8,
+          angle: 2.1,
+          blur: 4,
+          color: "0x111111",
+          distance: 10,
+        },
+        fill: "#ffffff",
+        stroke: { color: "gray", width: 12, join: "round" },
+        fontSize: 24,
+        fontWeight: "lighter",
+      },
+      x: 120,
+      y: 400,
+      cursor: true,
+      scaleX: 1,
+      scaleY: 1,
+    },
   },
-  fill: "#ffffff",
-  // stroke: { color: "#004620", width: 12, join: "round" },
-  fontSize: 40,
-  fontWeight: "lighter",
+  desktop: {
+    container: {
+      x: 960,
+      y: 472.5,
+    },
+    introScreenSprite: {
+      texture: "/assets/introScreen.webp",
+      x: -950,
+      y: -467,
+      scaleX: 1,
+      scaleY: 1,
+      label: "introScreen",
+      cursor: false,
+    },
+    introTitle: {
+      fontStyle: {
+        fontFamily: "Arial",
+        dropShadow: {
+          alpha: 0.8,
+          angle: 2.1,
+          blur: 4,
+          color: "0x111111",
+          distance: 10,
+        },
+        fill: "#ffffff",
+        // stroke: { color: "#004620", width: 12, join: "round" },
+        fontSize: 40,
+        fontWeight: "lighter",
+      },
+      x: -190, //window.innerWidth / 2,
+      y: -275, //window.innerHeight / 2,
+      cursor: false,
+      scaleX: 1,
+      scaleY: 1,
+    },
+    continueBtn: {
+      fontStyle: {
+        fontFamily: "Arial",
+        dropShadow: {
+          alpha: 0.8,
+          angle: 2.1,
+          blur: 4,
+          color: "0x111111",
+          distance: 10,
+        },
+        fill: "#ffffff",
+        // stroke: { color: "#004620", width: 12, join: "round" },
+        fontSize: 40,
+        fontWeight: "lighter",
+      },
+      x: 0,
+      y: 200,
+      cursor: true,
+      scaleX: 1,
+      scaleY: 1,
+    },
+  },
 };
-const textObj = {
-  fontStyle: fontStyle,
-  x: 800, //window.innerWidth / 2,
-  y: 280, //window.innerHeight / 2,
-  cursor: false,
-  scaleX: 1,
-  scaleY: 1,
-};
-const textObj2: any = {
-  fontStyle: fontStyle,
-  x: 950, //window.innerWidth / 2,
-  y: 600, //window.innerHeight / 2,
-  cursor: true,
-  scaleX: 1,
-  scaleY: 1,
-};
+
 const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
-  const app = usePixi().app;
+  const { app, device } = usePixi();
+  const [deviceConfig] = useState(dataConfiguraton[device]);
   const containerRef = useRef<PIXI.Container | null>(null);
   const [parentConRef, setParentConRef] = useState<PIXI.Container | null>(null);
   useEffect(() => {
@@ -63,6 +139,11 @@ const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
     );
     // console.log("data.containerRef=>", continerRef.current);
     const container = continerRef.current;
+    if (deviceConfig?.container) {
+      container.x = deviceConfig.container.x;
+      container.y = deviceConfig.container.y;
+    }
+
     setParentConRef(container);
   }, [app]);
 
@@ -72,25 +153,25 @@ const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
     props.setIntroScreen(true);
   };
 
-  textObj2.onclick = clickContinueBtn;
   return (
     <>
       {!parentConRef ? null : (
         <>
-          <Sprite {...spriteObj} app={app} container={parentConRef} />
+          {/* <Sprite {...spriteObj} app={app} container={parentConRef} /> */}
           <Text
-            TextStyle={textObj}
+            TextStyle={deviceConfig?.introTitle}
             title={"Welcome to the game!"}
             label={"introTitle"}
             app={app}
             container={parentConRef}
           />
           <Text
-            TextStyle={textObj2}
+            TextStyle={deviceConfig?.continueBtn}
             title={"Continue"}
             label={"continueBtn"}
             app={app}
             container={parentConRef}
+            onclick={clickContinueBtn}
           />
         </>
       )}

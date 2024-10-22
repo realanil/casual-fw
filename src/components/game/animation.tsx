@@ -2,16 +2,48 @@ import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
+import Bitmap from "../core/Bitmap";
 import Spine from "../core/Spine";
 
-const spriteObj = {
-  texture: "/assets/hand-cards-trump-spades.webp",
-  x: 700,
-  y: 200,
+const spineObj = {
+  x: 500,
+  y: 800,
   scaleX: 1,
   scaleY: 1,
-  label: "cardImg",
+  label: "spineAnimation",
   cursor: true,
+};
+
+const spineObj2 = {
+  x: 800,
+  y: 800,
+  scaleX: 1,
+  scaleY: 1,
+  label: "spineAnimation",
+  cursor: true,
+};
+
+const styles = {
+  fontFamily: "Desyrel",
+  fontSize: 55,
+  align: "left",
+};
+const bitmapObj = {
+  text: "Hello Bonanza 123455!",
+  x: 400,
+  y: 300,
+  anchor: 0.5,
+  style: styles, // Use the TextStyle object here
+  label: "bitmapTxt",
+};
+
+const bitmapObj2 = {
+  text: "Hello !",
+  x: 700,
+  y: 500,
+  anchor: 0.5,
+  style: styles, // Use the TextStyle object here
+  label: "bitmapTxt2",
 };
 const Animation: React.FC = () => {
   const app = usePixi().app;
@@ -35,7 +67,10 @@ const Animation: React.FC = () => {
     <>
       {!parentConRef ? null : (
         <>
-          <Spine {...spriteObj} app={app} container={parentConRef} />
+          <Spine {...spineObj} container={parentConRef} />
+          <Bitmap {...bitmapObj} container={parentConRef} app={app} />
+          {/* <Bitmap {...bitmapObj2} container={parentConRef} app={app} /> */}
+          <Spine {...spineObj2} container={parentConRef} />
         </>
       )}
     </>

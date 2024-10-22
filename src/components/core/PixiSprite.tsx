@@ -23,7 +23,7 @@ interface spriteInterface {
 // }
 const PixiSprite: React.FC<spriteInterface> = (props) => {
   const { label, x, y, scaleX, scaleY, cursor } = props;
-  console.log("PixiSprite=>", props);
+  // console.log("PixiSprite=>", props);
   const app = usePixi().app;
   const container: any = new PIXI.Container();
   container.label = label; // Assign a name to the container
@@ -41,7 +41,7 @@ const PixiSprite: React.FC<spriteInterface> = (props) => {
     }
   } else {
     const sprite: any = PIXI.Sprite.from(label);
-    console.log("img=>", sprite);
+    // console.log("img=>", sprite);
     sprite.label = label;
     sprite.x = x ? x : 0;
     sprite.y = y ? y : 0;
@@ -51,7 +51,7 @@ const PixiSprite: React.FC<spriteInterface> = (props) => {
     sprite.buttonMode = true; // Change the cursor to a pointer on hover
     cursor &&
       sprite.on("pointerdown", () => {
-        console.log("Sprite clicked!");
+        // console.log("Sprite clicked!");
         // Add any click handling logic here
       });
 

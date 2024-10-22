@@ -21,8 +21,7 @@ interface textObj {
   scaleX: number; // Scale in X direction
   scaleY: number; // Scale in Y direction
   cursor?: boolean; // Is the sprite interactive?
-  fontStyle?: TextStyleProps;
-  onclick?: (() => void) | undefined;
+  fontStyle?: any; //TextStyleProps
 }
 interface TextProps {
   app: PIXI.Application; // Pass the PixiJS application instance
@@ -30,6 +29,7 @@ interface TextProps {
   TextStyle: textObj;
   container: any;
   label: string;
+  onclick?: (() => void) | undefined;
 }
 
 const Text: React.FC<TextProps> = ({
@@ -38,9 +38,10 @@ const Text: React.FC<TextProps> = ({
   TextStyle,
   container,
   label,
+  onclick,
 }) => {
   const spriteRef = useRef<PIXI.Sprite | null>(null);
-  const { x, y, scaleX, scaleY, cursor, fontStyle, onclick } = TextStyle;
+  const { x, y, scaleX, scaleY, cursor, fontStyle } = TextStyle;
   useEffect(() => {
     const pt: any = app.stage.getChildByLabel(label);
     // Create sprite on mount

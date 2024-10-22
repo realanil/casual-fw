@@ -1,7 +1,7 @@
 // import { app } from "@/pages";
 
 import { usePixi } from "@/context/PixiContext";
-import { Application, Text } from "pixi.js";
+import { Text } from "pixi.js";
 import { useEffect, useRef } from "react";
 import Layout from "../Layout";
 // import Sprite from "./Sprite";
@@ -11,9 +11,11 @@ interface PixiCanvasProps {
 }
 const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
   const app = usePixi().app;
+  const appRef = usePixi().appRef;
+  appRef.current = app;
   const canvasRef = useRef<HTMLDivElement>(null);
-  const appRef = useRef<Application | null>(null);
-
+  // const appRef = useRef<Application | null>(null);
+  // appRef.current = app;
   const textRef = useRef<Text | null>(null);
   // console.log("appRef=>", appRef, canvasRef, textRef);
   useEffect(() => {
@@ -26,7 +28,8 @@ const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
       if (canvasRef.current) {
         // const p: any = document.getElementById("gameCover");
         // p && p.appendChild(app.canvas);
-        canvasRef.current.appendChild(app.canvas);
+        // canvasRef.current.appendChild(app.canvas);
+        canvasRef.current.appendChild(appRef.current.canvas);
         // loadAssets().then(() => {
         //   const spinBtn = Sprite.from("sprite1");
         //   console.log("ppppppppp=>", spinBtn);
@@ -67,8 +70,15 @@ const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
       // return () => {
       //   app.destroy(true, { children: true });
       // };
+      window.addEventListener("resize", handleResize);
       return () => {
-        app.destroy(true, { children: true, texture: true, baseTexture: true });
+        // app.destroy(true, { children: true, texture: true, baseTexture: true });
+        window.removeEventListener("resize", handleResize);
+        appRef.current?.destroy(true, {
+          children: true,
+          texture: true,
+          baseTexture: true,
+        });
       };
     };
     appConst();
@@ -91,6 +101,34 @@ const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
   //     scaleY: Math.random() * 2, // Random scale Y
   //   }));
   // };
+
+  // Handle window resize
+  const handleResize = () => {
+    // console.log("appRef=>", appRef);
+    if (appRef.current) {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      appRef.current.renderer.resize(width, height);
+      // console.log("appRef=>", appRef);
+      // Scale all children to fit the new canvas size
+      // const scale = Math.min(width / 800, height / 600); // Adjust based on your design
+      const scale = Math.min(width / 1170, height / 940); // Adjust based on your design
+      appRef.current.stage.children.forEach((child: any) => {
+        child.scale.set(scale);
+        // console.log(
+        //   "height / 3=>",
+        //   height / 3,
+        //   height / 3.9,
+        //   window.innerHeight
+        // );
+        child.position.set(width / 2, height / 2); // Centering
+        // child.children.forEach((child: any) => {
+        //   child.scale.set(scale);
+        //   child.position.set(width / 2, height / 2); // Centering
+        // });
+      });
+    }
+  };
   return (
     <div
       ref={canvasRef}
