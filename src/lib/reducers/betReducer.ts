@@ -16,12 +16,21 @@ interface Data {
     }
 
 }
+interface collectInterface{
+    round: {
+        events: any;
+        possibleActions: any,
+        roundId: string,
+        status: string, //started
+    }
+};
 
 interface CounterState {
   data: Data;
   responseCard: Data;
   history: [Data]
   betValue: number;
+  collect: collectInterface;
   error: string | null;
 }
 // Define the initial state using that type
@@ -70,6 +79,27 @@ const initialState: CounterState = {
             }
         }
     ],
+    collect:{        
+            "round": {
+                "status": "wfwpc",
+                "roundId": "26265130",
+                "possibleActions": [],
+                "events": [
+                    {
+                        "et": 2,
+                        "etn": "collect",
+                        "en": "0",
+                        "ba": "0",
+                        "bc": "0",
+                        "wa": "0",
+                        "wc": "0",
+                        "awa": "0",
+                        "awc": "0",
+                        "c": null
+                    }
+                ]
+            }           
+        },
     betValue: 200,
     error: null,
   };
@@ -96,19 +126,17 @@ const betSlice = createSlice({
             // console.log("pppppppp ag=>", state.data, action.payload)
         },
         playCard(state, action: PayloadAction<any>) {
-             console.log("pppppppp=>", state, action)
+            //  console.log("pppppppp=>", state, action)
             state.responseCard = action.payload;
             state.history.push(action.payload);
             state.error = null;
         },
         collectAmount(state, action: PayloadAction<any>) {
-            state.responseCard = action.payload;
-            state.history.push(action.payload);
+            state.collect = action.payload;
             state.error = null;
         },
         winPresentationComplete(state, action: PayloadAction<any>) {
-            state.responseCard = action.payload;
-            state.history.push(action.payload);
+            state.data = action.payload;
             state.error = null;
         },
         betUpdate(state, action: PayloadAction<any>) {
@@ -120,5 +148,5 @@ const betSlice = createSlice({
         }
     }
 });
-export const { fetchBetStart, fetchBetSuccess, fetchBetFailure, playCard, betUpdate} = betSlice.actions;
+export const { fetchBetStart, fetchBetSuccess, fetchBetFailure, playCard, collectAmount, winPresentationComplete,  betUpdate} = betSlice.actions;
 export default betSlice.reducer;

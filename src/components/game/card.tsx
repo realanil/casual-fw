@@ -46,7 +46,8 @@ const Card: React.FC = () => {
   const [deviceConfig, setDeviceConfig] = useState(dataConfiguraton[device]);
   const containerRef = useRef<PIXI.Container | null>(null);
   const [parentConRef, setParentConRef] = useState<PIXI.Container | null>(null);
-  const dataApi: any = useAppSelector((state) => state.bet.responseCard);
+  const playCardData: any = useAppSelector((state) => state.bet.responseCard);
+  const dataApi: any = useAppSelector((state) => state.bet.data);
   // const [card, setCard] = useState<string>("0");
   const [texture, setTexture] = useState<string>("/assets/deck/8C.png");
   useEffect(() => {
@@ -69,14 +70,27 @@ const Card: React.FC = () => {
     console.log("action=>", dataApi);
     if (dataApi) {
       dataApi.round.events.forEach((event: any) => {
-        event.c?.chosenChoice?.action == "newCard" &&
+        event.c?.value &&
           setTexture(
-            `/assets/deck/${event.c?.card?.value}${
-              cardType[event.c?.card?.suit]
-            }.png`
+            `/assets/deck/${event.c?.value}${cardType[event.c?.suit]}.png`
           );
+      });
+    }
+  }, [dataApi]);
+  useEffect(() => {
+    console.log("playCardData=>", playCardData);
+    if (playCardData) {
+      playCardData.round.events.forEach((event: any) => {
+        // event.c?.chosenChoice?.action == "newCard" &&
+        //   setTexture(
+        //     `/assets/deck/${event.c?.card?.value}${
+        //       cardType[event.c?.card?.suit]
+        //     }.png`
+        //   );
 
-        event.c?.chosenChoice?.action == "lessOrEqual" &&
+        ["greaterOrEqual", "lessOrEqual", "newCard"].includes(
+          event.c?.chosenChoice?.action
+        ) &&
           setTexture(
             `/assets/deck/${event.c?.card?.value}${
               cardType[event.c?.card?.suit]
@@ -84,7 +98,7 @@ const Card: React.FC = () => {
           );
       });
     }
-  }, [dataApi]);
+  }, [playCardData]);
   // useEffect(() => {
   //   if (card) {
   //     deviceConfig.cardImg.texture = `/assets/${card}.webp`;

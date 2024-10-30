@@ -48,8 +48,8 @@ const Button: React.FC<TextProps> = ({
     const button: any = new PIXI.Graphics();
 
     // Draw the button
-    button.beginFill(0x66ccff);
-    button.drawRect(x - 10, y, 200, 50);
+    button.beginFill("#2d3663");
+    button.drawRect(x - 10, y - 5, 200, 50);
     button.endFill();
     // Create sprite on mount
     const skewStyle = new PIXI.TextStyle(fontStyle);

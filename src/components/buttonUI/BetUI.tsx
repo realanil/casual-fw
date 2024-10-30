@@ -95,7 +95,7 @@ const BetUI: React.FC<ButtonPanelProps> = ({ activeBtn, setActiveBtn }) => {
       >
         -
       </button>
-      <span className={styles.betText}>Bet: {betText}</span>
+      <span className={styles.betText}> {betText}</span>
       <button
         onClick={() => {
           handleBetIncrease();

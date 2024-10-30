@@ -22,7 +22,7 @@ const fontStyle = {
   },
   fill: "#ffffff",
   // stroke: { color: "#004620", width: 12, join: "round" },
-  fontSize: 40,
+  fontSize: 50,
   fontWeight: "lighter",
 };
 const textObj = {
@@ -92,7 +92,7 @@ const Layout: React.FC<layoutInterface> = (props) => {
         <>
           <Text
             TextStyle={deviceConfig?.gameTitle}
-            title={"Game Title"}
+            title={"Hi-Lo"}
             label={"gameTitle"}
             app={app}
             container={parentConRef}

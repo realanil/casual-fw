@@ -36,7 +36,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         resolution: window.devicePixelRatio || 1,
         autoDensity: true,
         resizeTo: window,
-        backgroundColor: 0x2c3e50,
+        backgroundColor: "#232b53",
         hello: true,
       });
       // console.log("appRef.current 984=>", appRef.current);

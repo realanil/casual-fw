@@ -38,7 +38,7 @@ const dataConfiguraton: any = {
           alpha: 0.8,
           angle: 2.1,
           blur: 4,
-          color: "0x111111",
+          color: "#2d3663",
           distance: 10,
         },
         fill: "#ffffff",
@@ -150,13 +150,12 @@ const CardAction: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("dataApi=>", apiData.data);
     if (apiData.data.round.roundId) {
       setBtnSetting((prevState: any) => ({
         ...prevState,
-        left: true,
-        right: true,
-        newCard: true,
+        left: apiData.data.round.status != "completed" ? true : false,
+        right: apiData.data.round.status != "completed" ? true : false,
+        newCard: apiData.data.round.status != "completed" ? true : false,
       }));
     }
   }, [apiData.data]);

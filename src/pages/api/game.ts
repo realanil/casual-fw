@@ -103,7 +103,7 @@ const handleCollect = (req: NextApiRequest, res: NextApiResponse) => {
         "customData": null,
         "serverTime": "2024-10-22T11:59:33Z"
     }
-    res.status(200).json({ message: 'Success', data, req,  });
+    res.status(200).json({...output});
 }
 const handleLessOrEqual = (req: NextApiRequest, res: NextApiResponse) => {
     const data = req.body; // Get data from the request
@@ -117,20 +117,30 @@ const handleLessOrEqual = (req: NextApiRequest, res: NextApiResponse) => {
     const prevCardValue = store["prevCardValue"];
     const prevCardSuit = store["prevCardSuit"];
     let  chosenChoice, collectableWin;
-    if(prevCardValue<=cardIndex){
-        chosenChoice = {
-            "action": "lessOrEqual",
-            "oddsIn52": "28",
-            "winFactor": 1.81
-        }
-        collectableWin = store["collectableWin"]+1.81;
+    let status = "completed";
+    const prevLow = store['prevLow'];
+    if(prevCardValue >= cardIndex){       
+        collectableWin =  prevLow;
+        status = "started";
+        store["collectableWin"] = collectableWin;
+    } else {
+        store['prevLow'] = 0;
+        store['prevHigh'] = 0;
     }
-    store["collectableWin"] = collectableWin;
+    const {highWinFactor, lowWinFactor} = winFactorResponse();
+    const action = data?.continueInstructions?.action ? data?.continueInstructions?.action : "";
+   
+    chosenChoice = {
+        "action": action,
+        "oddsIn52": "28",
+        "winFactor":  prevLow
+    }
+   
     store["prevCardValue"] = cardIndex;
     store["prevCardSuit"] = card;
     const output = {
         "round": {
-            "status": "started",
+            "status": status,
             "jackpotWin": null,
             "roundId": roundId,
             "possibleActions": [
@@ -183,12 +193,12 @@ const handleLessOrEqual = (req: NextApiRequest, res: NextApiResponse) => {
                             {
                                 "action": "greaterOrEqual",
                                 "oddsIn52": "24",
-                                "winFactor": 3.94
+                                "winFactor": highWinFactor
                             },
                             {
                                 "action": "collect",
                                 "oddsIn52": "52",
-                                "winFactor": 1.81
+                                "winFactor": lowWinFactor
                             }
                         ]
                     }
@@ -220,20 +230,40 @@ const handleGreaterOrEqual = (req: NextApiRequest, res: NextApiResponse) => {
     const card = numbers2[Math.floor(Math.random() * numbers2.length)];
     const prevCardValue = store["prevCardValue"];
     const prevCardSuit = store["prevCardSuit"];
+    // res.status(200).json({ prevCardValue, prevCardSuit, cardIndex  });
     let  chosenChoice, collectableWin;
-    if(prevCardValue>=cardIndex){
-        chosenChoice = {
-            "action": "greaterOrEqual",
-            "oddsIn52": "28",
-            "winFactor": 1.81
-        }
-        collectableWin = "362";
-    }
+    let status = "completed";
+    //!SECTION
+    collectableWin = 0;
     store["prevCardValue"] = cardIndex;
     store["prevCardSuit"] = card;
+    //!SECTION
+    const prevHigh = store['prevHigh'];
+    if(prevCardValue <= cardIndex){       
+        collectableWin =  prevHigh;
+        status = "started";
+        store["collectableWin"] = collectableWin;
+    } else {
+        store['prevLow'] = 0;
+        store['prevHigh'] = 0;
+    }
+    const {highWinFactor, lowWinFactor} = winFactorResponse();
+    const action = data?.continueInstructions?.action ? data?.continueInstructions?.action : "";
+    chosenChoice = {
+        "action": action,
+        "oddsIn52": "28",
+        "winFactor":  prevHigh
+    }
+   
+   
+    
+    
     const output = {
+        prevCardValue,
+        prevCardSuit,
+        cardIndex,
         "round": {
-            "status": "started",
+            "status": status,
             "jackpotWin": null,
             "roundId": roundId,
             "possibleActions": [
@@ -281,12 +311,12 @@ const handleGreaterOrEqual = (req: NextApiRequest, res: NextApiResponse) => {
                             {
                                 "action": "lessOrEqual",
                                 "oddsIn52": "32",
-                                "winFactor": 2.95
+                                "winFactor": lowWinFactor
                             },
                             {
                                 "action": "greaterOrEqual",
                                 "oddsIn52": "24",
-                                "winFactor": 3.94
+                                "winFactor": highWinFactor
                             },
                             {
                                 "action": "collect",
@@ -324,6 +354,7 @@ const handleNewCard = (req: NextApiRequest, res: NextApiResponse) => {
     const card = numbers2[Math.floor(Math.random() * numbers2.length)];
     store["prevCardValue"] = cardIndex;
     store["prevCardSuit"] = card;
+    const {highWinFactor, lowWinFactor} = winFactorResponse();
     const output = {
         "round": {
             "status": "started",
@@ -376,12 +407,12 @@ const handleNewCard = (req: NextApiRequest, res: NextApiResponse) => {
                             {
                                 "action": "lessOrEqual",
                                 "oddsIn52": "28",
-                                "winFactor": 1.81
+                                "winFactor": lowWinFactor
                             },
                             {
                                 "action": "greaterOrEqual",
                                 "oddsIn52": "28",
-                                "winFactor": 1.81
+                                "winFactor": highWinFactor
                             }
                         ]
                     }
@@ -418,12 +449,14 @@ const handleBet= (req: NextApiRequest, res: NextApiResponse) => {
     }
     store["roundId"] = newRoundId; // Store the value
     store["seq"] = seq; // Store the value
-   
+    store["collectableWin"] = 0;
     const balance = store['balance']-bets.betAmount/100;
     //  res.status(201).json({ message: 'Created successfully', store, balance, p:store['balance'] });
-    store['balance'] = balance/100;
+    store['balance'] = balance;
     store["prevCardValue"] = value;
     store["prevCardSuit"] = suit;
+    const {highWinFactor, lowWinFactor} = winFactorResponse();
+    
     const response = {
         "round": {
             "status": "started",
@@ -471,12 +504,12 @@ const handleBet= (req: NextApiRequest, res: NextApiResponse) => {
                             {
                                 "action": "greater",
                                 "oddsIn52": "48",
-                                "winFactor": 1.06
+                                "winFactor": highWinFactor
                             },
                             {
                                 "action": "equal",
                                 "oddsIn52": "4",
-                                "winFactor": 12.74
+                                "winFactor": lowWinFactor
                             }
                         ],
                         "suit": suit,
@@ -504,7 +537,26 @@ const handleBet= (req: NextApiRequest, res: NextApiResponse) => {
     };
     res.status(201).json({ ...response });
 } 
-
+const winFactorResponse = () => {
+    let highWinFactor, lowWinFactor = 0;
+    if(store["prevCardValue"] >= 10 || store["prevCardValue"] <= 4) {
+        const winArr = [10, 10.5, 10.9, 11.5, 11.9, 12];
+        const rnd  = Math.floor(Math.random() * winArr.length);
+        highWinFactor = winArr[rnd];
+        const winArr2 = [1, 1.3, 1.6, 1.9, 2, 2.1, 2.3, 2.9, 3, 3.1, 3.3, 3.7, 3.9, 4, 4.1, 4.3, 4.7, 4.9, 5, 5.1, 5.3, 5.7, 5.9, 6, 6.1, 6.5, 6.9, 7, 7.1, 7.3, 7.9, 8, 8.1, 8.5, 8.9, 9, 9.1, 9.3, 9.9,10];
+        lowWinFactor = winArr2[rnd];
+    } 
+    if(store["prevCardValue"] < 10 || store["prevCardValue"] > 4) {
+        const winArr = [10, 10.5, 10.9, 11.5, 11.9, 12];
+        const rnd  = Math.floor(Math.random() * winArr.length);
+        lowWinFactor = winArr[rnd];
+        const winArr2 = [1, 1.3, 1.6, 1.9, 2, 2.1, 2.3, 2.9, 3, 3.1, 3.3, 3.7, 3.9, 4, 4.1, 4.3, 4.7, 4.9, 5, 5.1, 5.3, 5.7, 5.9, 6, 6.1, 6.5, 6.9, 7, 7.1, 7.3, 7.9, 8, 8.1, 8.5, 8.9, 9, 9.1, 9.3, 9.9,10];
+        highWinFactor = winArr2[rnd];
+    }
+    store['prevHigh'] = highWinFactor;
+    store['prevLow'] = lowWinFactor;
+    return {highWinFactor: highWinFactor?.toFixed(2), lowWinFactor: lowWinFactor?.toFixed(2) };
+}
 const handleAuth= (req: NextApiRequest, res: NextApiResponse) => {
     const data = req.body; // Get data from the request
     const roundId =  data.roundId;

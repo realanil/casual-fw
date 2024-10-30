@@ -1,7 +1,7 @@
 // import { takeEvery, } from "redux-saga";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { AuthApiPost as ApiPost } from "../api/api";
-import { fetchBetFailure, fetchBetSuccess, playCard } from "../reducers/betReducer";
+import { collectAmount, fetchBetFailure, fetchBetSuccess, playCard, winPresentationComplete } from "../reducers/betReducer";
 
 /*function* fetchBetSaga() {
     try{
@@ -33,6 +33,7 @@ function* hitBackend(action: any): Generator<any>{
   try{
     // console.log("action.payload=>", action.payload)
     const response  = yield call(ApiPost, action.payload);
+    // console.log("collectApi=>", action.payload.continueInstructions.action, response);
     if(!action.payload.continueInstructions) {
       yield put(fetchBetSuccess(response));
     }
@@ -43,7 +44,11 @@ function* hitBackend(action: any): Generator<any>{
       yield put(playCard(response));
     } else if(action.payload.continueInstructions.action == "greaterOrEqual") {
       yield put(playCard(response));
-    } 
+    } else if(action.payload.continueInstructions.action == "collect") {
+      yield put(collectAmount(response));
+    }else if(action.payload.continueInstructions.action == "win_presentation_complete") {
+      yield put(winPresentationComplete(response));
+    }
   }
   catch(error: any) {
     yield put(fetchBetFailure(error.message));
@@ -57,4 +62,6 @@ export default function* betSaga() {
     yield takeEvery('bets/win_presentation_complete', hitBackend);
     // yield takeEvery('users/createUserStart', createUserSaga);
   }
+
+
 

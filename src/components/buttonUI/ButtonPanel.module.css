@@ -10,12 +10,32 @@
     z-index: 1;
     color: #fff;
 }
-.balance {
+.buttonControls {
     display: block;
-    position: absolute;
-    top: 10%;
-    width: 10%;
+    margin-bottom: 20px;
+    width: 50%;
+    text-align: center;
+    float: left;
 }
+.spinControl{
+    /* width: 50%; */
+}
+.balance {
+    width: 35%;
+    float: left;
+}
+.buttonInfo{
+    width: 65%;
+}
+.betText {
+    font-size: 20px;
+}
+.winText {
+    font-size: 20px;
+    float: right;
+}
+
+
 @media screen and (max-width: 800px) {
 .panel {
     display: flex;
@@ -24,17 +44,17 @@
 .betControls {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .button {
-    padding: 10px 20px;
-    margin: 0 10px;
+    padding:  0px 15px 0px 0px;
+    margin-left: 15px;
     font-size: 18px;
 }
 
 .spinButton {
-    padding: 15px 30px;
+    padding: 0px 10px 0px 10px;
     font-size: 24px;
     background: #28a745;
     color: #fff;
@@ -42,41 +62,25 @@
     border-radius: 5px;
     cursor: pointer;
 }
-.betText {
-    font-size: 20px;
-}
+
 .musicButton {
-    padding: 10px 20px;
+    padding: 0px 16px 0px 0px;
     font-size: 18px;
-    margin: 10px 0;
     cursor: pointer;
 }
 .infoButton {
-    padding: 10px 20px;
+    padding: 0px 16px 0px 0px;
     font-size: 18px;
-    margin: 10px 0;
     cursor: pointer;
 }
 .homeButton {
-    padding: 10px 20px;
+    padding: 0px 16px 0px 0px;
     font-size: 18px;
-    margin: 10px 0;
     cursor: pointer;
 }
 
-.buttonControls {
-    display: block;
-    align-items: center;
-    margin-bottom: 20px;
-    position: relative;
-    width: 50%;
-    left:0;
-    text-align: center;
-    float: left;
-}
-.spinControl{
-    width: 70%;
-}
+
+
 .winUl{
     display: flex; 
     list-style-type: none; 

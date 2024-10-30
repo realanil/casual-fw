@@ -21,7 +21,11 @@ interface btnInterface {
 }
 interface colletInterface {
   collect: number;
-  total: number;
+  total: string;
+}
+interface PrevCardInterface {
+  card: number;
+  suit: string;
 }
 const ButtonPanel: React.FC<ButtonPanelProps> = ({
   onSpin,
@@ -31,20 +35,27 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   // The `state` arg is correctly typed as `RootState` already
   const dataAPi: any = useAppSelector((state) => state.bet.data);
   const responseCard: any = useAppSelector((state) => state.bet.responseCard);
+  const collectApi: any = useAppSelector((state) => state.bet.collect);
   const betValue: any = useAppSelector((state) => state.bet.betValue);
   const [collectAmount, setCollectAmount] = useState<colletInterface>({
     collect: 0,
     total: 0,
   });
-  const [wonHistory, setWonHistory] = useState<Array<any>>([]);
+  const [win, setWin] = useState<string>("");
+  // const [wonHistory, setWonHistory] = useState<Array<any>>([]);
+  const [prevCards, setPrevCards] = useState<PrevCardInterface>({
+    card: 8,
+    suit: "clubs",
+  });
   useEffect(() => {
     // console.log("setBalance=>", dataAPi, dataAPi?.accountBalance.balance);
-    setBalance(dataAPi?.accountBalance.balance);
+    setBalance(Number(dataAPi?.accountBalance.balance).toFixed(2));
   }, [dataAPi]);
 
   useEffect(() => {
     responseCard.round.status == "completed" &&
-      setActiveBtn({ ...activeBtn, bet: true });
+      setActiveBtn({ ...activeBtn, bet: true, collectAmount: false });
+
     if (responseCard.round.status == "started") {
       responseCard.round.events.forEach((event: any) => {
         event.c?.chosenChoice?.winFactor > 0 &&
@@ -55,17 +66,28 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
             betInc: false,
             betDec: false,
           });
-        setWonHistory((prevSate) => [
-          ...prevSate,
-          event.c?.chosenChoice?.winFactor,
-        ]);
+
         setCollectAmount({
           collect: event.c?.chosenChoice?.winFactor,
-          total: event.c?.collectableWin,
+          total: Number(event.c?.collectableWin).toFixed(2),
         });
+        setPrevCards({ card: event.c?.card?.value, suit: event.c?.card?.suit });
       });
     }
   }, [responseCard]);
+
+  useEffect(() => {
+    console.log("collectApi=>", collectApi);
+    if (collectApi.round.status == "wfwpc") {
+      collectApi.round.events.forEach((event: any) => {
+        // setWonHistory((prevSate) => [
+        //   // ...prevSate,
+        //   event.wa,
+        // ]);
+        setWin(Number(event.wa).toFixed(2));
+      });
+    }
+  }, [collectApi]);
   const dispatch = useAppDispatch();
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -78,6 +100,8 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   });
   const onBet = async (e: React.FormEvent) => {
     e.preventDefault();
+    // setWonHistory([]);
+    setWin("");
     dispatch({
       type: "bets/fetchBetsStart",
       payload: {
@@ -87,8 +111,8 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
           {
             betAmount: betValue,
             customData: {
-              suit: "clubs",
-              value: 8,
+              suit: prevCards.suit,
+              value: prevCards.card,
             },
           },
         ],
@@ -140,37 +164,47 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
         continueInstructions: { action: "win_presentation_complete" },
       },
     });
-    setActiveBtn({ ...activeBtn, bet: true, collectAmount: false });
-  };
-  const winAmountArr: Array<any> = [];
-  if (wonHistory) {
-    wonHistory.forEach((won: number, inx: number) => {
-      won > 0 && winAmountArr.push(<li key={inx}>{won}</li>);
+    setActiveBtn({
+      ...activeBtn,
+      bet: true,
+      collectAmount: false,
+      betDec: true,
+      betInc: true,
     });
-  }
+  };
+  // const winAmountArr: Array<any> = [];
+  // if (wonHistory) {
+  //   wonHistory.forEach((won: number, inx: number) => {
+  //     won > 0 && winAmountArr.push(<li key={inx}>{won}</li>);
+  //   });
+  // }
   return (
     <div className={styles.panel}>
       <div className={styles.buttonControls}>
-        <button onClick={toggleMusic} className={styles.musicButton}>
-          {musicPlaying ? "Mute Music" : "Play Music"}
-        </button>
-        <button
-          onClick={() => alert("Info button clicked!")}
-          className={styles.infoButton}
-        >
-          Info
-        </button>
-        <button
-          onClick={() => alert("Home button clicked!")}
-          className={styles.homeButton}
-        >
-          Home
-        </button>
+        <div className={styles.balance}>
+          <span className={styles.betText}>Demo Balance: {balance}</span>
+          <span className={styles.winText}>Win: {win}</span>
+          {/* <ul className={styles.winUl}>{winAmountArr}</ul> */}
+        </div>
+        <div className={styles.buttonInfo}>
+          <button onClick={toggleMusic} className={styles.musicButton}>
+            {musicPlaying ? "Mute Music" : "Play Music"}
+          </button>
+          <button
+            onClick={() => alert("Info button clicked!")}
+            className={styles.infoButton}
+          >
+            Info
+          </button>
+          <button
+            onClick={() => alert("Home button clicked!")}
+            className={styles.homeButton}
+          >
+            Home
+          </button>
+        </div>
       </div>
-      <div className={styles.balance}>
-        <span className={styles.betText}>Demo Balance: {balance}</span>
-        <ul className={styles.winUl}>{winAmountArr}</ul>
-      </div>
+
       <div className={styles.spinControl}>
         <div className={styles.betControls}>
           <BetUI activeBtn={activeBtn} setActiveBtn={setActiveBtn} />
