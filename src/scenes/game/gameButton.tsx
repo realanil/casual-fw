@@ -76,7 +76,7 @@ const dataConfiguraton: any = {
     scaleY: 1,
     desktop: {
       x: -370, //window.innerWidth / 2,
-      y: 0, //window.innerHeight / 2,
+      y: -20, //window.innerHeight / 2,
     },
     mobile: {
       x: 10,
@@ -90,7 +90,7 @@ const dataConfiguraton: any = {
     scaleY: 1,
     desktop: {
       x: 340,
-      y: 0,
+      y: -20,
     },
     mobile: {
       x: 330,
