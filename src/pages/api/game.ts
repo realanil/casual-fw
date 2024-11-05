@@ -355,6 +355,7 @@ const handleNewCard = (req: NextApiRequest, res: NextApiResponse) => {
     store["prevCardValue"] = cardIndex;
     store["prevCardSuit"] = card;
     const {highWinFactor, lowWinFactor} = winFactorResponse();
+   const collectableWin =  store["collectableWin"];
     const output = {
         "round": {
             "status": "started",
@@ -386,8 +387,9 @@ const handleNewCard = (req: NextApiRequest, res: NextApiResponse) => {
                         "chosenChoice": {
                             "action": "newCard",
                             "oddsIn52": "52",
-                            "winFactor": 0
+                            "winFactor":collectableWin
                         },
+                        collectableWin,
                         "choices": [
                             {
                                 "action": "newCard",

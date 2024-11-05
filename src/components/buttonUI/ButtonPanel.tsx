@@ -39,7 +39,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   const betValue: any = useAppSelector((state) => state.bet.betValue);
   const [collectAmount, setCollectAmount] = useState<colletInterface>({
     collect: 0,
-    total: 0,
+    total: "",
   });
   const [win, setWin] = useState<string>("");
   // const [wonHistory, setWonHistory] = useState<Array<any>>([]);
@@ -53,8 +53,12 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   }, [dataAPi]);
 
   useEffect(() => {
-    responseCard.round.status == "completed" &&
+    if (responseCard.round.status == "completed") {
       setActiveBtn({ ...activeBtn, bet: true, collectAmount: false });
+      responseCard?.round?.events.forEach((event: any) => {
+        setPrevCards({ card: event.c?.card?.value, suit: event.c?.card?.suit });
+      });
+    }
 
     if (responseCard.round.status == "started") {
       responseCard.round.events.forEach((event: any) => {

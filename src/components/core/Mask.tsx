@@ -11,7 +11,7 @@ const Mask: React.FC<maskInterface> = ({ app, x, y, container }) => {
   useEffect(() => {
     const mask = new PIXI.Graphics();
     // mask.beginFill(0xffffff, 2); // Fill color and alpha
-    mask.rect(0, 0, 700, 150); // Use rec instead of drawRect
+    mask.rect(0, 0, 700, 180); // Use rec instead of drawRect
     // mask.drawRect(0, 0, 600, 150); // Adjust size as needed
     mask.endFill();
     mask.x = x;

@@ -16,8 +16,8 @@ interface TextStyleProps {
   fontWeight?: string;
 }
 interface textObj {
-  x: number; // X position
-  y: number; // Y position
+  x?: number; // X position
+  y?: number; // Y position
   scaleX: number; // Scale in X direction
   scaleY: number; // Scale in Y direction
   fontStyle?: any; //TextStyleProps
@@ -29,54 +29,40 @@ interface TextProps {
   container: any;
   label: string;
   cursor?: boolean; // Is the sprite interactive?
-  bgHeight?: number;
+  x?: number;
+  y?: number;
+  bgColor?: string;
   onclick?: (() => void) | undefined;
 }
 
-const Button: React.FC<TextProps> = ({
+const Box: React.FC<TextProps> = ({
   app,
   title,
   TextStyle,
   container,
   label,
   cursor,
-  bgHeight,
-  onclick,
+  x,
+  y,
+  bgColor,
 }) => {
   const spriteRef = useRef<PIXI.Graphics | null>(null);
-  const { x, y, scaleX, scaleY, fontStyle } = TextStyle;
+  const { scaleX, scaleY, fontStyle } = TextStyle;
   useEffect(() => {
     const pt: any = app.stage.getChildByLabel(label);
     const button: any = new PIXI.Graphics();
 
     // Draw the button
-    button.beginFill("#2d3663");
-    button.drawRect(x - 10, y - 5, 200, bgHeight ? bgHeight : 50);
+    console.log("bgColor=>", bgColor);
+    button.beginFill(bgColor);
+    button.drawRect(x, y, 100, 20);
     button.endFill();
-    // Create sprite on mount
-    const skewStyle = new PIXI.TextStyle(fontStyle);
-    const skewText: any = new PIXI.Text({
-      text: title,
-      style: skewStyle,
-    });
 
-    // console.log("useEffect sprite", container);
-    skewText.label = label;
-    skewText.x = x;
-    skewText.y = y + 5;
-    skewText.scale.set(scaleX, scaleY);
     button.interactive = cursor;
     button.buttonMode = cursor;
-
-    // app.stage.addChild(sprite); // Add sprite to the stage
-    /*container && container.children.length > 0
-      ? container.children[0].addChild(sprite)
-      : container.addChild(sprite); // Add sprite to the stage*/
-    button.addChild(skewText);
     pt ? (pt.text = title) : container.addChild(button);
 
     spriteRef.current = button;
-    cursor && (skewText.interactive = true);
     cursor &&
       button.on("pointerover", () => {
         app.renderer.canvas.style.cursor = "pointer"; // Change to pointer cursor
@@ -87,18 +73,14 @@ const Button: React.FC<TextProps> = ({
       });
     // Attach the custom click event function
     button.on("pointerdown", () => {
-      // console.log("Text clicked!");
       onclick && onclick(); // Call the passed function
     });
-    // Add sprite to the stage of the PixiJS application
-    // Note: This requires access to the app instance
-    // console.log("skewText=>", skewText);
     return () => {
       // console.log("destroy sprite");
       button.destroy(); // Cleanup on unmount
     };
-  }, [app, x, y, scaleX, scaleY, cursor, label, container, title, bgHeight]);
+  }, [app, x, y, scaleX, scaleY, cursor, label, container, title, bgColor]);
   return null;
 };
 
-export default Button;
+export default Box;

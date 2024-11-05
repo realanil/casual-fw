@@ -3,6 +3,7 @@ import { createContainer } from "@/helpers/container";
 import { useAppSelector } from "@/lib/hooks";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
+import Box from "../core/Box";
 import Mask from "../core/Mask";
 import Sprite from "../core/Sprite";
 const fontStyle = {
@@ -52,6 +53,27 @@ const dataConfiguraton: any = {
       scaleY: 0.45,
       // label: "cardImg",
       cursor: false,
+    },
+    boxDesign: {
+      fontStyle: {
+        fontFamily: "Arial",
+        dropShadow: {
+          alpha: 0.8,
+          angle: 2.1,
+          blur: 4,
+          color: "0x111111",
+          distance: 10,
+        },
+        fill: "#ffffff",
+        // stroke: { color: "#004620", width: 12, join: "round" },
+        fontSize: 24,
+        fontWeight: "lighter",
+      },
+      x: 0,
+      y: 0,
+      cursor: true,
+      scaleX: 1,
+      scaleY: 1,
     },
   },
 };
@@ -105,20 +127,55 @@ const CardReview: React.FC = () => {
         //     cardType[event.c?.card?.suit]
         //   }.png`
         // );
-        // console.log("imgs=>", parentConRef);
+        console.log(
+          "event?.etn=>",
+          event,
+          event?.c?.collectableWin,
+          event?.etn == "hit" && event?.c?.collectableWin > 0
+            ? "#232b53"
+            : event?.etn == "hit"
+            ? "#cccccc"
+            : event?.etn == "start"
+            ? "#232b53"
+            : "#28a745"
+        );
         imgs.push(
-          <Sprite
-            key={`${i}-${event.c?.card?.value}`}
-            {...deviceConfig?.cardImg}
-            label={`hist_${event.c?.card?.value}`}
-            x={-113 * i + 580}
-            y={5}
-            app={app}
-            textureUpdate={`/assets/deck/${event.c?.card?.value}${
-              cardType[event.c?.card?.suit]
-            }.png`}
-            container={parentConRef && parentConRef.children[0]}
-          />
+          <>
+            <Sprite
+              key={`${i}-${event.c?.card?.value}`}
+              {...deviceConfig?.cardImg}
+              label={`hist_${event.c?.card?.value}`}
+              x={-113 * i + 580}
+              y={5}
+              app={app}
+              textureUpdate={`/assets/deck/${event.c?.card?.value}${
+                cardType[event.c?.card?.suit]
+              }.png`}
+              container={parentConRef && parentConRef.children[0]}
+            />
+            <Box
+              key={`box-${i}-${event.c?.card?.value}`}
+              TextStyle={deviceConfig?.boxDesign}
+              title={"success"}
+              bgColor={
+                event?.c?.chosenChoice?.action == "newCard"
+                  ? "#68696f"
+                  : event?.etn == "start"
+                  ? "#232b53"
+                  : event?.etn == "hit" && event?.c?.collectableWin > 0
+                  ? "#28a745"
+                  : event?.etn == "hit"
+                  ? "#f20000"
+                  : ""
+              }
+              x={-113 * i + 580}
+              y={150}
+              label={"rightButton"}
+              app={app}
+              container={parentConRef && parentConRef.children[0]}
+              cursor={false}
+            />
+          </>
         );
       });
     });

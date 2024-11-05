@@ -31,6 +31,24 @@ const dataConfiguraton: any = {
       label: "rightArrow",
       cursor: false,
     },
+    leftAction: {
+      texture: "/assets/downArrow.png",
+      x: 0,
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
+      label: "leftAction",
+      cursor: false,
+    },
+    rightAction: {
+      texture: "/assets/upArrow.png",
+      x: 0,
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
+      label: "rightAction",
+      cursor: false,
+    },
     leftButton: {
       fontStyle: {
         fontFamily: "Arial",
@@ -88,9 +106,27 @@ const dataConfiguraton: any = {
       label: "rightArrow",
       cursor: true,
     },
+    leftAction: {
+      texture: "/assets/downArrow.png",
+      x: -443,
+      y: 0,
+      scaleX: 0.25,
+      scaleY: 0.25,
+      label: "leftAction",
+      cursor: false,
+    },
+    rightAction: {
+      texture: "/assets/upArrow.png",
+      x: 273,
+      y: 0,
+      scaleX: 0.25,
+      scaleY: 0.25,
+      label: "rightAction",
+      cursor: false,
+    },
     leftButton: {
       fontStyle: fontStyle,
-      x: -470, //window.innerWidth / 2,
+      x: -370, //window.innerWidth / 2,
       y: 0, //window.innerHeight / 2,
       cursor: false,
       scaleX: 1,
@@ -98,7 +134,7 @@ const dataConfiguraton: any = {
     },
     rightButton: {
       fontStyle: fontStyle,
-      x: 440,
+      x: 340,
       y: 0,
       cursor: true,
       scaleX: 1,
@@ -116,6 +152,12 @@ interface btnInterface {
   right: boolean;
   newCard: boolean;
 }
+
+interface buttonTextsInterface {
+  left: string;
+  right: string;
+  bgHeight: number;
+}
 const CardAction: React.FC = () => {
   const { app, device } = usePixi();
   const [deviceConfig, setDeviceConfig] = useState(dataConfiguraton[device]);
@@ -130,7 +172,11 @@ const CardAction: React.FC = () => {
   // const [state, dispatch] = useReducer(reducer<DataType>, initialState);
   const apiData: any = useAppSelector((state) => state.bet);
   const dispatch = useAppDispatch();
-
+  const [buttonTexts, setButtonTexts] = useState<buttonTextsInterface>({
+    left: "Same or Lower",
+    right: "Same or Higher",
+    bgHeight: 50,
+  });
   //
   useEffect(() => {
     // Check if the container already exists
@@ -169,6 +215,45 @@ const CardAction: React.FC = () => {
         right: false,
         newCard: false,
       }));
+
+    if (apiData.responseCard.round.status != "completed") {
+      apiData.responseCard.round.events.forEach((event: any) => {
+        if (event.c?.card?.value == 1) {
+          setButtonTexts((prevState) => ({
+            ...prevState,
+            left: "Same",
+            right: "Same or Higher",
+          }));
+        } else if (event.c?.card?.value == 13) {
+          setButtonTexts((prevState) => ({
+            ...prevState,
+            left: "Same or Lower",
+            right: "Same",
+          }));
+        } else {
+          setButtonTexts((prevState) => ({
+            ...prevState,
+            left: "Same or Lower",
+            right: "Same or Higher",
+          }));
+        }
+        event.c?.choices &&
+          event.c?.choices.forEach((element: any) => {
+            ["greaterOrEqual", "greater"].includes(element.action) &&
+              setButtonTexts((prevState) => ({
+                ...prevState,
+                right: `${prevState.right}\nx.${element.winFactor}`,
+                bgHeight: 70,
+              }));
+            ["equal", "lessOrEqual"].includes(element.action) &&
+              setButtonTexts((prevState) => ({
+                ...prevState,
+                left: `${prevState.left}\nx.${element.winFactor}`,
+                bgHeight: 70,
+              }));
+          });
+      });
+    }
   }, [apiData.responseCard]);
   const clickEventBtn = () => {
     console.log("Coming soon...");
@@ -196,22 +281,36 @@ const CardAction: React.FC = () => {
             onclick={() => onNext("newCard")}
             cursor={btnSetting?.newCard}
           />
+          <Sprite
+            {...deviceConfig?.leftAction}
+            app={app}
+            container={parentConRef}
+            cursor={btnSetting?.left}
+          />
           <Button
             TextStyle={deviceConfig?.leftButton}
-            title={"Lower and Same"}
+            title={buttonTexts.left}
             label={"leftButton"}
             cursor={btnSetting?.left}
+            bgHeight={buttonTexts?.bgHeight}
             app={app}
             container={parentConRef}
             onclick={() => onNext("lessOrEqual")}
           />
+          <Sprite
+            {...deviceConfig?.rightAction}
+            app={app}
+            container={parentConRef}
+            cursor={btnSetting?.left}
+          />
           <Button
             TextStyle={deviceConfig?.rightButton}
-            title={"Higher and Same"}
+            title={buttonTexts.right}
             label={"rightButton"}
             app={app}
             container={parentConRef}
             cursor={btnSetting?.left}
+            bgHeight={buttonTexts?.bgHeight}
             onclick={() => onNext("greaterOrEqual")}
           />
           {/* <Text

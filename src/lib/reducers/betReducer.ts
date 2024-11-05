@@ -114,7 +114,7 @@ const betSlice = createSlice({
             state.error = null;
         },
         fetchBetSuccess(state, action: PayloadAction<any>) {
-           
+            state.responseCard = action.payload;
             // state.data.push(action.payload);
             state.data = action.payload;
             state.history.splice(0, state.history.length);// Output: []
@@ -124,6 +124,12 @@ const betSlice = createSlice({
             // }
             state.history.push(action.payload);
             // console.log("pppppppp ag=>", state.data, action.payload)
+        },
+        cardRefresh(state, action: PayloadAction<any>) {
+            //  console.log("pppppppp=>", state, action)
+            state.responseCard = action.payload;
+            state.history.push(action.payload);
+            state.error = null;
         },
         playCard(state, action: PayloadAction<any>) {
             //  console.log("pppppppp=>", state, action)
@@ -148,5 +154,5 @@ const betSlice = createSlice({
         }
     }
 });
-export const { fetchBetStart, fetchBetSuccess, fetchBetFailure, playCard, collectAmount, winPresentationComplete,  betUpdate} = betSlice.actions;
+export const { fetchBetStart, fetchBetSuccess, fetchBetFailure, playCard, collectAmount, winPresentationComplete, cardRefresh, betUpdate} = betSlice.actions;
 export default betSlice.reducer;

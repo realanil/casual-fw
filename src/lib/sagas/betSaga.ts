@@ -1,7 +1,7 @@
 // import { takeEvery, } from "redux-saga";
 import { call, put, takeEvery } from "redux-saga/effects";
 import { AuthApiPost as ApiPost } from "../api/api";
-import { collectAmount, fetchBetFailure, fetchBetSuccess, playCard, winPresentationComplete } from "../reducers/betReducer";
+import { cardRefresh, collectAmount, fetchBetFailure, fetchBetSuccess, playCard, winPresentationComplete } from "../reducers/betReducer";
 
 /*function* fetchBetSaga() {
     try{
@@ -38,7 +38,7 @@ function* hitBackend(action: any): Generator<any>{
       yield put(fetchBetSuccess(response));
     }
     else if(action.payload.continueInstructions.action == "newCard") {
-      yield put(playCard(response));
+      yield put(cardRefresh(response));
     } 
     else if(action.payload.continueInstructions.action == "lessOrEqual") {
       yield put(playCard(response));

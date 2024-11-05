@@ -68,6 +68,14 @@ const manifest = {
                     src: '/assets/rightArrow.png',
                 },
                 {
+                    alias: 'leftAction',
+                    src: '/assets/downArrow.png',
+                },
+                {
+                    alias: 'rightAction',
+                    src: '/assets/upArrow.png',
+                },
+                {
                     alias: '1C',
                     src: '/assets/deck/1C.png',
                 },
