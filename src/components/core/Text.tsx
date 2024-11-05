@@ -2,49 +2,58 @@
 import * as PIXI from "pixi.js";
 import React, { useEffect, useRef } from "react";
 
-interface TextStyleProps {
-  fontFamily?: string;
-  dropShadow: {
+interface MyTextStyleConfig {
+  fontFamily: string;
+  dropShadow?: {
     alpha?: number;
     angle?: number;
     blur?: number;
     color?: string;
     distance?: number;
   };
-  fill?: string;
   fontSize?: number;
-  fontWeight?: string;
+  fill?: string;
+  stroke?: string;
+  strokeThickness?: number;
+  wordWrap?: boolean;
+  wordWrapWidth?: number;
+  lineHeight?: number;
+  align?: "left" | "center" | "right";
 }
-interface textObj {
-  x: number; // X position
-  y: number; // Y position
-  scaleX: number; // Scale in X direction
-  scaleY: number; // Scale in Y direction
-  cursor?: boolean; // Is the sprite interactive?
-  fontStyle?: any; //TextStyleProps
-}
+
 interface TextProps {
   app: PIXI.Application; // Pass the PixiJS application instance
   title: string; // Path to the sprite texture
-  TextStyle: textObj;
+  scaleX: number; // Scale in X direction
+  scaleY: number; // Scale in Y direction
+  cursor?: boolean; // Is the sprite interactive?
+  fontStyle: MyTextStyleConfig; //TextStyleProps
   container: any;
   label: string;
+  x: number; // X position
+  y: number; // Y position
   onclick?: (() => void) | undefined;
 }
 
 const Text: React.FC<TextProps> = ({
   app,
   title,
-  TextStyle,
   container,
   label,
+  x,
+  y,
+  scaleX,
+  scaleY,
+  cursor,
+  fontStyle,
   onclick,
 }) => {
   const spriteRef = useRef<PIXI.Sprite | null>(null);
-  const { x, y, scaleX, scaleY, cursor, fontStyle } = TextStyle;
+  // const { scaleX, scaleY, cursor, fontStyle } = fontStyle;
   useEffect(() => {
     const pt: any = app.stage.getChildByLabel(label);
     // Create sprite on mount
+    console.log("fontStyle=>", fontStyle);
     const skewStyle = new PIXI.TextStyle(fontStyle);
     const skewText: any = new PIXI.Text({
       text: title,

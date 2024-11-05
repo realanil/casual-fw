@@ -1,19 +1,23 @@
+import Sprite from "@/components/core/Sprite";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import { useAppSelector } from "@/lib/hooks";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-import Sprite from "../core/Sprite";
 const dataConfiguraton: any = {
-  mobile: {
-    cardImg: {
-      texture: "/assets/0.webp",
-      x: 0,
-      y: 0,
-      scaleX: 1,
-      scaleY: 1,
-      label: "cardImg",
-      cursor: false,
+  cardImg: {
+    texture: "/assets/deck/8C.png",
+    scaleX: 1,
+    scaleY: 1,
+    label: "cardImg",
+    cursor: false,
+    mobile: {
+      x: 100,
+      y: 150,
+    },
+    desktop: {
+      x: -50,
+      y: -250,
     },
   },
   desktop: {
@@ -21,21 +25,14 @@ const dataConfiguraton: any = {
       x: 960,
       y: 472.5,
     },
-    cardImg: {
-      texture: "/assets/deck/8C.png",
-      x: -50,
-      y: -250,
-      scaleX: 1,
-      scaleY: 1,
-      label: "cardImg",
-      cursor: false,
-    },
   },
 };
 interface cardsObject {
   [key: string]: string;
 }
 const Card: React.FC = () => {
+  const width = window.innerWidth;
+  dataConfiguraton.desktop.container.x = width / 2;
   const { app, device } = usePixi();
   const [cardType] = useState<cardsObject>({
     clubs: "C",
@@ -43,7 +40,6 @@ const Card: React.FC = () => {
     hearts: "H",
     spades: "S",
   });
-  const [deviceConfig, setDeviceConfig] = useState(dataConfiguraton[device]);
   const containerRef = useRef<PIXI.Container | null>(null);
   const [parentConRef, setParentConRef] = useState<PIXI.Container | null>(null);
   const playCardData: any = useAppSelector((state) => state.bet.responseCard);
@@ -60,14 +56,14 @@ const Card: React.FC = () => {
       null
     );
     const container = continerRef.current;
-    if (deviceConfig?.container) {
-      container.x = deviceConfig.container.x;
-      container.y = deviceConfig.container.y;
+    if (dataConfiguraton[device]?.container) {
+      container.x = dataConfiguraton[device].container.x;
+      container.y = dataConfiguraton[device].container.y;
     }
     setParentConRef(container);
-  }, [deviceConfig]);
+  }, [dataConfiguraton[device]]);
   useEffect(() => {
-    console.log("action=>", dataApi);
+    // console.log("action=>", dataApi);
     if (dataApi) {
       dataApi.round.events.forEach((event: any) => {
         event.c?.value &&
@@ -78,7 +74,7 @@ const Card: React.FC = () => {
     }
   }, [dataApi]);
   useEffect(() => {
-    console.log("playCardData=>", playCardData);
+    // console.log("playCardData=>", playCardData);
     if (playCardData) {
       playCardData.round.events.forEach((event: any) => {
         // event.c?.chosenChoice?.action == "newCard" &&
@@ -112,7 +108,8 @@ const Card: React.FC = () => {
       {!parentConRef ? null : (
         <>
           <Sprite
-            {...deviceConfig?.cardImg}
+            {...dataConfiguraton.cardImg}
+            {...dataConfiguraton.cardImg[device]}
             app={app}
             textureUpdate={texture}
             container={parentConRef}

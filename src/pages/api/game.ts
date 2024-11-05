@@ -686,7 +686,6 @@ function getRandomNonZeroIndex(arr: any) {
     const rnd  = Math.floor(Math.random() * arr.length);
    
     const n = rnd == 0 ? rnd+1 : rnd;
-    console.log("rnd=>", n)
     return n;
   }
   

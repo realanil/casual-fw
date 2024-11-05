@@ -1,6 +1,6 @@
 // pages/index.tsx
 
-import GameRoot from "@/components/game/GameRoot";
+import GameRoot from "@/scenes/game/GameRoot";
 const Home: React.FC = () => {
   return <GameRoot />;
 };

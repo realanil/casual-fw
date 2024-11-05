@@ -1,11 +1,11 @@
+import Box from "@/components/core/Box";
+import Mask from "@/components/core/Mask";
+import Sprite from "@/components/core/Sprite";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import { useAppSelector } from "@/lib/hooks";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-import Box from "../core/Box";
-import Mask from "../core/Mask";
-import Sprite from "../core/Sprite";
 const fontStyle = {
   fontFamily: "Arial",
   dropShadow: {
@@ -22,14 +22,64 @@ const fontStyle = {
 };
 
 const dataConfiguraton: any = {
-  mobile: {
-    cardPreview: {
-      fontStyle: fontStyle,
+  cardPreview: {
+    fontStyle: fontStyle,
+    cursor: true,
+    scaleX: 1,
+    scaleY: 1,
+    desktop: {
+      x: -200, //window.innerWidth / 2,
+      y: 90, //window.innerHeight / 2,
+    },
+    mobile: {
       x: 0,
       y: 0,
-      cursor: true,
-      scaleX: 1,
-      scaleY: 1,
+    },
+  },
+  cardImg: {
+    texture: "/assets/deck/1C.png",
+    // x: 0,
+    // y: 100,
+    scaleX: 0.45,
+    scaleY: 0.45,
+    // label: "cardImg",
+    cursor: false,
+    desktop: {
+      x: -200, //window.innerWidth / 2,
+      y: 90, //window.innerHeight / 2,
+    },
+    mobile: {
+      x: 0,
+      y: 0,
+    },
+  },
+  boxDesign: {
+    fontStyle: {
+      fontFamily: "Arial",
+      dropShadow: {
+        alpha: 0.8,
+        angle: 2.1,
+        blur: 4,
+        color: "0x111111",
+        distance: 10,
+      },
+      fill: "#ffffff",
+      // stroke: { color: "#004620", width: 12, join: "round" },
+      fontSize: 24,
+      fontWeight: "lighter",
+    },
+    x: 0,
+    y: 0,
+    cursor: true,
+    scaleX: 1,
+    scaleY: 1,
+    desktop: {
+      x: 0,
+      y: 0,
+    },
+    mobile: {
+      x: 0,
+      y: 0,
     },
   },
   desktop: {
@@ -37,43 +87,15 @@ const dataConfiguraton: any = {
       x: 960,
       y: 472.5,
     },
-    cardPreview: {
-      fontStyle: fontStyle,
-      x: -200, //window.innerWidth / 2,
-      y: 90, //window.innerHeight / 2,
-      cursor: true,
-      scaleX: 1,
-      scaleY: 1,
+    mask: {
+      x: -350,
+      y: 120,
     },
-    cardImg: {
-      texture: "/assets/deck/1C.png",
-      // x: 0,
-      // y: 100,
-      scaleX: 0.45,
-      scaleY: 0.45,
-      // label: "cardImg",
-      cursor: false,
-    },
-    boxDesign: {
-      fontStyle: {
-        fontFamily: "Arial",
-        dropShadow: {
-          alpha: 0.8,
-          angle: 2.1,
-          blur: 4,
-          color: "0x111111",
-          distance: 10,
-        },
-        fill: "#ffffff",
-        // stroke: { color: "#004620", width: 12, join: "round" },
-        fontSize: 24,
-        fontWeight: "lighter",
-      },
+  },
+  mobile: {
+    mask: {
       x: 0,
-      y: 0,
-      cursor: true,
-      scaleX: 1,
-      scaleY: 1,
+      y: 550,
     },
   },
 };
@@ -81,9 +103,11 @@ const dataConfiguraton: any = {
 interface cardsObject {
   [key: string]: string;
 }
-const CardReview: React.FC = () => {
+const CardHistory: React.FC = () => {
+  const width = window.innerWidth;
+  dataConfiguraton.desktop.container.x = width / 2;
+
   const { app, device } = usePixi();
-  const [deviceConfig] = useState(dataConfiguraton[device]);
   const containerRef = useRef<PIXI.Container | null>(null);
   const [parentConRef, setParentConRef] = useState<PIXI.Container | any>(null);
   const apidata = useAppSelector((state) => state.bet.history);
@@ -103,11 +127,15 @@ const CardReview: React.FC = () => {
       null
     );
     const container = continerRef.current;
-    if (deviceConfig?.container) {
-      container.x = deviceConfig.container.x;
-      container.y = deviceConfig.container.y;
+    if (dataConfiguraton[device]?.container) {
+      container.x = dataConfiguraton[device].container.x;
+      container.y = dataConfiguraton[device].container.y;
     }
     setParentConRef(container);
+    if (device == "mobile") {
+      dataConfiguraton.cardImg.scaleX = 0.25;
+      dataConfiguraton.cardImg.scaleY = 0.25;
+    }
   }, []);
   useEffect(() => {
     if (apidata) {
@@ -121,31 +149,14 @@ const CardReview: React.FC = () => {
   history &&
     history.map((dataApi: any, i: number) => {
       dataApi.round.events.forEach((event: any) => {
-        // console.log(
-        //   "ppppppppp=>",
-        //   `/assets/deck/${event.c?.card?.value}${
-        //     cardType[event.c?.card?.suit]
-        //   }.png`
-        // );
-        console.log(
-          "event?.etn=>",
-          event,
-          event?.c?.collectableWin,
-          event?.etn == "hit" && event?.c?.collectableWin > 0
-            ? "#232b53"
-            : event?.etn == "hit"
-            ? "#cccccc"
-            : event?.etn == "start"
-            ? "#232b53"
-            : "#28a745"
-        );
         imgs.push(
-          <>
+          <div key={`${i}-${event.c?.card?.value}`}>
             <Sprite
               key={`${i}-${event.c?.card?.value}`}
-              {...deviceConfig?.cardImg}
+              {...dataConfiguraton.cardImg}
+              {...dataConfiguraton.cardImg[device]}
               label={`hist_${event.c?.card?.value}`}
-              x={-113 * i + 580}
+              x={device == "mobile" ? -80 * i + 350 : -113 * i + 580}
               y={5}
               app={app}
               textureUpdate={`/assets/deck/${event.c?.card?.value}${
@@ -155,7 +166,8 @@ const CardReview: React.FC = () => {
             />
             <Box
               key={`box-${i}-${event.c?.card?.value}`}
-              TextStyle={deviceConfig?.boxDesign}
+              {...dataConfiguraton.boxDesign}
+              {...dataConfiguraton.boxDesign[device]}
               title={"success"}
               bgColor={
                 event?.c?.chosenChoice?.action == "newCard"
@@ -168,14 +180,15 @@ const CardReview: React.FC = () => {
                   ? "#f20000"
                   : ""
               }
-              x={-113 * i + 580}
-              y={150}
+              x={device == "mobile" ? -80 * i + 350 : -113 * i + 580}
+              y={device == "mobile" ? 90 : 150}
+              width={device == "mobile" ? 60 : 100}
               label={"rightButton"}
               app={app}
               container={parentConRef && parentConRef.children[0]}
               cursor={false}
             />
-          </>
+          </div>
         );
       });
     });
@@ -186,18 +199,17 @@ const CardReview: React.FC = () => {
     <>
       {!parentConRef ? null : (
         <>
-          <Mask x={-350} y={120} app={app} container={parentConRef} />
-          {/* <Text
-            TextStyle={deviceConfig?.cardPreview}
-            title={"Card Preview"}
-            label={"cardPreview"}
+          <Mask
+            x={dataConfiguraton[device].mask.x}
+            y={dataConfiguraton[device].mask.y}
             app={app}
             container={parentConRef}
-          /> */}
+            key={4}
+          />
           {imgs}
         </>
       )}
     </>
   );
 };
-export default CardReview;
+export default CardHistory;

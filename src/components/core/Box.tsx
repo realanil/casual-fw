@@ -31,7 +31,10 @@ interface TextProps {
   cursor?: boolean; // Is the sprite interactive?
   x?: number;
   y?: number;
+  scaleX: number; // Scale in X direction
+  scaleY: number; // Scale in Y direction
   bgColor?: string;
+  width?: string;
   onclick?: (() => void) | undefined;
 }
 
@@ -44,10 +47,13 @@ const Box: React.FC<TextProps> = ({
   cursor,
   x,
   y,
+  scaleX,
+  scaleY,
   bgColor,
+  width,
 }) => {
   const spriteRef = useRef<PIXI.Graphics | null>(null);
-  const { scaleX, scaleY, fontStyle } = TextStyle;
+  // const { scaleX, scaleY, fontStyle } = TextStyle;
   useEffect(() => {
     const pt: any = app.stage.getChildByLabel(label);
     const button: any = new PIXI.Graphics();
@@ -55,7 +61,7 @@ const Box: React.FC<TextProps> = ({
     // Draw the button
     console.log("bgColor=>", bgColor);
     button.beginFill(bgColor);
-    button.drawRect(x, y, 100, 20);
+    button.drawRect(x, y, width ? width : 100, 20);
     button.endFill();
 
     button.interactive = cursor;

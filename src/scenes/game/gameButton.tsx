@@ -1,10 +1,10 @@
+import Button from "@/components/core/Button";
+import Sprite from "@/components/core/Sprite";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-import Button from "../core/Button";
-import Sprite from "../core/Sprite";
 
 const fontStyle: any = {
   fontFamily: "Arial",
@@ -20,125 +20,88 @@ const fontStyle: any = {
   fontSize: 24,
   fontWeight: "lighter",
 };
+
 const dataConfiguraton: any = {
-  mobile: {
-    rightArrow: {
-      texture: "/assets/rightArrow.png",
-      x: 0,
-      y: 0,
-      scaleX: 0.5,
-      scaleY: 0.5,
-      label: "rightArrow",
-      cursor: false,
+  rightArrow: {
+    texture: "/assets/rightArrow.png",
+    x: 0,
+    y: 0,
+    scaleX: 0.35,
+    scaleY: 0.35,
+    label: "rightArrow",
+    cursor: true,
+    desktop: {
+      x: 200,
+      y: -247.5,
     },
-    leftAction: {
-      texture: "/assets/downArrow.png",
-      x: 0,
-      y: 0,
-      scaleX: 1,
-      scaleY: 1,
-      label: "leftAction",
-      cursor: false,
-    },
-    rightAction: {
-      texture: "/assets/upArrow.png",
-      x: 0,
-      y: 0,
-      scaleX: 1,
-      scaleY: 1,
-      label: "rightAction",
-      cursor: false,
-    },
-    leftButton: {
-      fontStyle: {
-        fontFamily: "Arial",
-        dropShadow: {
-          alpha: 0.8,
-          angle: 2.1,
-          blur: 4,
-          color: "#2d3663",
-          distance: 10,
-        },
-        fill: "#ffffff",
-        // stroke: { color: "#004620", width: 12, join: "round" },
-        fontSize: 24,
-        fontWeight: "lighter",
-      },
-      x: 0, //window.innerWidth / 2,
-      y: 0, //window.innerHeight / 2,
-      cursor: true,
-      scaleX: 1,
-      scaleY: 1,
-    },
-    rightButton: {
-      fontStyle: {
-        fontFamily: "Arial",
-        dropShadow: {
-          alpha: 0.8,
-          angle: 2.1,
-          blur: 4,
-          color: "0x111111",
-          distance: 10,
-        },
-        fill: "#ffffff",
-        // stroke: { color: "#004620", width: 12, join: "round" },
-        fontSize: 24,
-        fontWeight: "lighter",
-      },
-      x: 0,
-      y: 0,
-      cursor: true,
-      scaleX: 1,
-      scaleY: 1,
+    mobile: {
+      x: 310,
+      y: 150,
     },
   },
+  leftAction: {
+    texture: "/assets/downArrow.png",
+    scaleX: 0.25,
+    scaleY: 0.25,
+    label: "leftAction",
+    cursor: true,
+    desktop: {
+      x: -443,
+      y: 0,
+    },
+    mobile: {
+      x: 20,
+      y: 320,
+    },
+  },
+  rightAction: {
+    texture: "/assets/upArrow.png",
+    scaleX: 0.25,
+    scaleY: 0.25,
+    label: "rightAction",
+    cursor: true,
+    desktop: {
+      x: 273,
+      y: 0,
+    },
+    mobile: {
+      x: 350,
+      y: 320,
+    },
+  },
+  leftButton: {
+    fontStyle: fontStyle,
+    cursor: true,
+    scaleX: 1,
+    scaleY: 1,
+    desktop: {
+      x: -370, //window.innerWidth / 2,
+      y: 0, //window.innerHeight / 2,
+    },
+    mobile: {
+      x: 0,
+      y: 250,
+    },
+  },
+  rightButton: {
+    fontStyle: fontStyle,
+    cursor: true,
+    scaleX: 1,
+    scaleY: 1,
+    desktop: {
+      x: 340,
+      y: 0,
+    },
+    mobile: {
+      x: 300,
+      y: 250,
+    },
+  },
+
   desktop: {
     container: {
       x: 960,
       y: 472.5,
-    },
-    rightArrow: {
-      texture: "/assets/rightArrow.png",
-      x: 200,
-      y: -247.5,
-      scaleX: 0.35,
-      scaleY: 0.35,
-      label: "rightArrow",
-      cursor: true,
-    },
-    leftAction: {
-      texture: "/assets/downArrow.png",
-      x: -443,
-      y: 0,
-      scaleX: 0.25,
-      scaleY: 0.25,
-      label: "leftAction",
-      cursor: false,
-    },
-    rightAction: {
-      texture: "/assets/upArrow.png",
-      x: 273,
-      y: 0,
-      scaleX: 0.25,
-      scaleY: 0.25,
-      label: "rightAction",
-      cursor: false,
-    },
-    leftButton: {
-      fontStyle: fontStyle,
-      x: -370, //window.innerWidth / 2,
-      y: 0, //window.innerHeight / 2,
-      cursor: false,
-      scaleX: 1,
-      scaleY: 1,
-    },
-    rightButton: {
-      fontStyle: fontStyle,
-      x: 340,
-      y: 0,
-      cursor: true,
-      scaleX: 1,
-      scaleY: 1,
     },
   },
 };
@@ -158,9 +121,11 @@ interface buttonTextsInterface {
   right: string;
   bgHeight: number;
 }
-const CardAction: React.FC = () => {
+const GameButton: React.FC = () => {
+  const width = window.innerWidth;
+  dataConfiguraton.desktop.container.x = width / 2;
   const { app, device } = usePixi();
-  const [deviceConfig, setDeviceConfig] = useState(dataConfiguraton[device]);
+  // const [deviceConfig, setDeviceConfig] = useState(dataConfiguraton[device]);
   const [btnSetting, setBtnSetting] = useState<btnInterface>({
     left: false,
     right: false,
@@ -188,9 +153,9 @@ const CardAction: React.FC = () => {
       null
     );
     const container = continerRef.current;
-    if (deviceConfig?.container) {
-      container.x = deviceConfig.container.x;
-      container.y = deviceConfig.container.y;
+    if (dataConfiguraton[device]?.container) {
+      container.x = dataConfiguraton[device].container.x;
+      container.y = dataConfiguraton[device].container.y;
     }
     setParentConRef(container);
   }, []);
@@ -275,20 +240,24 @@ const CardAction: React.FC = () => {
       {!parentConRef ? null : (
         <>
           <Sprite
-            {...deviceConfig?.rightArrow}
+            {...dataConfiguraton.rightArrow}
+            {...dataConfiguraton.rightArrow[device]}
             app={app}
             container={parentConRef}
             onclick={() => onNext("newCard")}
             cursor={btnSetting?.newCard}
           />
           <Sprite
-            {...deviceConfig?.leftAction}
+            {...dataConfiguraton.leftAction}
+            {...dataConfiguraton.leftAction[device]}
             app={app}
             container={parentConRef}
             cursor={btnSetting?.left}
+            onclick={() => onNext("lessOrEqual")}
           />
           <Button
-            TextStyle={deviceConfig?.leftButton}
+            {...dataConfiguraton.leftButton}
+            {...dataConfiguraton.leftButton[device]}
             title={buttonTexts.left}
             label={"leftButton"}
             cursor={btnSetting?.left}
@@ -298,13 +267,16 @@ const CardAction: React.FC = () => {
             onclick={() => onNext("lessOrEqual")}
           />
           <Sprite
-            {...deviceConfig?.rightAction}
+            {...dataConfiguraton.rightAction}
+            {...dataConfiguraton.rightAction[device]}
             app={app}
             container={parentConRef}
             cursor={btnSetting?.left}
+            onclick={() => onNext("greaterOrEqual")}
           />
           <Button
-            TextStyle={deviceConfig?.rightButton}
+            {...dataConfiguraton.rightButton}
+            {...dataConfiguraton.rightButton[device]}
             title={buttonTexts.right}
             label={"rightButton"}
             app={app}
@@ -313,17 +285,9 @@ const CardAction: React.FC = () => {
             bgHeight={buttonTexts?.bgHeight}
             onclick={() => onNext("greaterOrEqual")}
           />
-          {/* <Text
-            TextStyle={deviceConfig?.rightButton}
-            title={"Higher and Same"}
-            label={"rightButton"}
-            app={app}
-            container={parentConRef}
-            onclick={clickEventBtn}
-          /> */}
         </>
       )}
     </>
   );
 };
-export default CardAction;
+export default GameButton;

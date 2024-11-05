@@ -1,9 +1,9 @@
+import ButtonPanel from "@/components/buttonUI/ButtonPanel";
+import PixiCanvas from "@/components/core/PixiCanvas";
 import { useAppDispatch } from "@/lib/hooks";
 import { loadAssets } from "@/utils/assetLoader";
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
-import ButtonPanel from "../buttonUI/ButtonPanel";
-import PixiCanvas from "../core/PixiCanvas";
 
 const GameRoot: React.FC = () => {
   const [loading, setLoading] = useState(true);

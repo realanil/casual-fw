@@ -1,3 +1,4 @@
+import { usePixi } from "@/context/PixiContext";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import React, { useEffect, useState } from "react";
 import BetUI from "./BetUI";
@@ -41,6 +42,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
     collect: 0,
     total: "",
   });
+  const { device } = usePixi();
   const [win, setWin] = useState<string>("");
   // const [wonHistory, setWonHistory] = useState<Array<any>>([]);
   const [prevCards, setPrevCards] = useState<PrevCardInterface>({
@@ -182,7 +184,143 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   //     won > 0 && winAmountArr.push(<li key={inx}>{won}</li>);
   //   });
   // }
-  return (
+  return device == "mobile" ? (
+    <div className={styles.panel}>
+      <div className="Pane Pane--data pane-rounded-corners">
+        <div className="Pane__inner">
+          <div className="Pane__body">
+            <div className={styles.BalanceInfoPanel} id="BalanceInfoPanel">
+              <div className="BalanceInfoPanel__container--info">
+                {/* <!-- BALANCE --> */}
+                <div id="BalanceItem" className={styles.BalanceInfoPanel__item}>
+                  <span
+                    id="BalanceLabel"
+                    className="BalanceInfoPanel__label"
+                    data-translation="balance"
+                    data-charcount="12"
+                  >
+                    DEMO BALANCE
+                  </span>
+                  <span
+                    id="BalanceValue"
+                    className={styles.BalanceInfoPanel__value}
+                    data-charcount="9"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    {balance}
+                  </span>
+                  <span
+                    id="WinAmountLabel"
+                    className="BalanceInfoPanel__label DataPanelItem__label WinAmount__text"
+                    data-translation="win_uc"
+                    data-charcount="3"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    WIN
+                  </span>
+                  <span
+                    id="WinAmountValue"
+                    className={styles.BalanceInfoPanel__value}
+                    data-main-field="win-amount"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    {win}
+                  </span>
+                </div>
+                {/* <!-- WIN AMOUNT STANDALONE --> */}
+                <div
+                  className="BalanceInfoPanel__item WinAmountStandalone"
+                  id="WinAmountStandalone"
+                >
+                  <div
+                    className="WinAmountStandalone__inner"
+                    id="WinAmountItem"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <BetUI activeBtn={activeBtn} setActiveBtn={setActiveBtn}></BetUI>
+      {activeBtn.bet && (
+        <button
+          onClick={(e) => {
+            onBet(e);
+            playSound();
+          }}
+          className={styles.spinButton}
+        >
+          Bet
+        </button>
+      )}
+      {activeBtn.collectAmount && (
+        <button
+          onClick={(e) => {
+            onCollectAmount(e);
+          }}
+          className={styles.spinButton}
+        >
+          Collect <span>{collectAmount.total}</span>
+        </button>
+      )}
+
+      <div className="Pane Pane--navbar pane-rounded-corners">
+        <div className="Pane__inner">
+          <div className={styles.MainNavbar} id="MainNavbar">
+            <ul className={styles.MainNavbar__list}>
+              <li className={styles.MainNavbar__item} id="SoundToggle">
+                <span className="MainNavbar__icon icon-sound-on"></span>
+                <span
+                  className="MainNavbar__text"
+                  data-translation="sound"
+                  data-charcount="5"
+                >
+                  SOUND
+                </span>
+              </li>
+              <li className="MainNavbar__item music-off" id="MusicToggle">
+                <span className="MainNavbar__icon icon-music-on"></span>
+                <span
+                  className="MainNavbar__text"
+                  data-translation="music"
+                  data-charcount="5"
+                >
+                  MUSIC
+                </span>
+              </li>
+
+              <li className={styles.MainNavbar__item} id="GameInfoBtn">
+                <span className="MainNavbar__icon icon-info-a"></span>
+                <span
+                  className="MainNavbar__text"
+                  data-translation="info_short_uc"
+                  data-charcount="4"
+                >
+                  INFO
+                </span>
+              </li>
+
+              <li
+                className="MainNavbar__item MainNavbar__item--Lobby"
+                id="LobbyAnchor"
+              >
+                <span className="MainNavbar__icon icon-home"></span>
+                <span
+                  className="MainNavbar__text"
+                  data-translation="home"
+                  data-charcount="4"
+                >
+                  HOME
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
     <div className={styles.panel}>
       <div className={styles.buttonControls}>
         <div className={styles.balance}>

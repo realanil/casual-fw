@@ -1,9 +1,8 @@
 // import { app } from "@/pages";
 
 import { usePixi } from "@/context/PixiContext";
-import { Text } from "pixi.js";
+import GameManager from "@/scenes/GameManager";
 import { useEffect, useRef } from "react";
-import Layout from "../Layout";
 // import Sprite from "./Sprite";
 interface PixiCanvasProps {
   introScreen: boolean;
@@ -16,8 +15,6 @@ const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   // const appRef = useRef<Application | null>(null);
   // appRef.current = app;
-  const textRef = useRef<Text | null>(null);
-  // console.log("appRef=>", appRef, canvasRef, textRef);
   useEffect(() => {
     const appConst = async () => {
       // appRef.current = await app.init({ background: "#1099bb", resizeTo: window });
@@ -141,7 +138,7 @@ const PixiCanvas: React.FC<PixiCanvasProps> = (props: any) => {
     >
       {/* <Sprite {...spriteProps} app={app} />
       <button onClick={updateSprite}>Update Sprite</button> */}
-      <Layout
+      <GameManager
         introScreen={props.introScreen}
         setIntroScreen={props.setIntroScreen}
       />

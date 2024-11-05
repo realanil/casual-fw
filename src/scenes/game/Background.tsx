@@ -1,8 +1,8 @@
+import Sprite from "@/components/core/Sprite";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-import Sprite from "../core/Sprite";
 
 const spriteObj = {
   texture: "/assets/introScreen.webp",

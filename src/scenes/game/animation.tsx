@@ -1,9 +1,9 @@
+import Bitmap from "@/components/core/Bitmap";
+import Spine from "@/components/core/Spine";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-import Bitmap from "../core/Bitmap";
-import Spine from "../core/Spine";
 
 const spineObj = {
   x: 500,

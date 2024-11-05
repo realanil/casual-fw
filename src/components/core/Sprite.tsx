@@ -63,7 +63,6 @@ const Sprite: React.FC<SpriteProps> = ({
     spriteRef.current = sprite;
     // Attach the custom click event function
     sprite.on("pointerdown", () => {
-      // console.log("Text clicked!");
       onclick && onclick(); // Call the passed function
     });
     // Add sprite to the stage of the PixiJS application

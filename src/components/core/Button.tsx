@@ -13,38 +13,38 @@ interface TextStyleProps {
   };
   fill?: string;
   fontSize?: number;
-  fontWeight?: string;
 }
-interface textObj {
-  x: number; // X position
-  y: number; // Y position
-  scaleX: number; // Scale in X direction
-  scaleY: number; // Scale in Y direction
-  fontStyle?: any; //TextStyleProps
-}
+
 interface TextProps {
   app: PIXI.Application; // Pass the PixiJS application instance
   title: string; // Path to the sprite texture
-  TextStyle: textObj;
   container: any;
   label: string;
   cursor?: boolean; // Is the sprite interactive?
   bgHeight?: number;
+  x: number; // X position
+  y: number; // Y position
+  scaleX: number; // Scale in X direction
+  scaleY: number; // Scale in Y direction
+  fontStyle?: TextStyleProps; //TextStyleProps
   onclick?: (() => void) | undefined;
 }
 
 const Button: React.FC<TextProps> = ({
   app,
   title,
-  TextStyle,
   container,
   label,
   cursor,
   bgHeight,
+  x,
+  y,
+  scaleX,
+  scaleY,
+  fontStyle,
   onclick,
 }) => {
   const spriteRef = useRef<PIXI.Graphics | null>(null);
-  const { x, y, scaleX, scaleY, fontStyle } = TextStyle;
   useEffect(() => {
     const pt: any = app.stage.getChildByLabel(label);
     const button: any = new PIXI.Graphics();

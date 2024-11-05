@@ -91,3 +91,113 @@
     padding: 5px;
     margin: 2px;
 }
+/****** Mobile CSS *******/
+div[data-layout-type=aside_panel] .Pane--navbar {
+    order: 4;
+}
+.MainNavbar {
+    align-items: center;
+    display: flex;
+    flex: 1 0 100%;
+    justify-content: center;
+}
+.MainNavbar__list {
+    align-items: stretch;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: auto;
+    justify-content: space-around;
+    position: relative;
+    width: 100%;
+}
+.MainNavbar__item {
+    align-items: center;
+    cursor: pointer;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    position: relative;
+}
+/****** Bet Section ****/
+.ActionBetPanel {
+    display: block;
+    width: 100%;
+}
+
+.ActionBetPanel__container{
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+}
+.BalanceInfoPanel__value {
+    color: var(--hg-typography-color);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 16px;
+}
+
+.ActionBetPanel__container_progressbar {
+    max-width: calc(67.5% - 1rem);
+}
+.BetAmountProgressbar {
+    background: var(--hg-bg-primary);
+    border-radius: 1rem;
+    box-shadow: inset 0 -2px 4px rgba(92, 92, 92, .5);
+    height: 5px;
+    margin: 0 auto;
+    outline: solid .25px var(--hg-border-color);
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+.BetAmountProgressbar__inner{
+    background: var(--hg-bg-accent);
+    display: block;
+    height: 100%;
+}
+
+.ActionBetPanel__container_cta {
+    align-items: center;
+    display: flex;
+    gap: .5rem;
+    justify-content: space-between;
+    width: 100%;
+}
+.ActionBetPanel__button_container_dec_bet, .ActionBetPanel__button_container_inc_bet {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 12.5%;
+}
+
+.ActionBetPanel__button_container_dec_bet, .ActionBetPanel__button_container_inc_bet {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 12.5%;
+}
+
+/** balance Css */
+.BalanceInfoPanel, .BalanceInfoPanel__item {
+    align-items: center;
+    /* display: flex; */
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+.BalanceInfoPanel__container--info, .BalanceInfoPanel__container--ticker {
+    display: flex;
+    flex: 1 1 100%;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+.BalanceInfoPanel__value {
+    color: var(--hg-typography-color);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 16px;
+}
