@@ -26,8 +26,8 @@ const dataConfiguraton: any = {
     texture: "/assets/rightArrow.png",
     x: 0,
     y: 0,
-    scaleX: 0.35,
-    scaleY: 0.35,
+    scaleX: 0.15,
+    scaleY: 0.15,
     label: "rightArrow",
     cursor: true,
     desktop: {
@@ -35,19 +35,19 @@ const dataConfiguraton: any = {
       y: -247.5,
     },
     mobile: {
-      x: 310,
+      x: 320,
       y: 150,
     },
   },
   leftAction: {
     texture: "/assets/downArrow.png",
-    scaleX: 0.25,
-    scaleY: 0.25,
+    scaleX: 0.15,
+    scaleY: 0.15,
     label: "leftAction",
     cursor: true,
     desktop: {
-      x: -443,
-      y: 0,
+      x: -343,
+      y: 30,
     },
     mobile: {
       x: 20,
@@ -56,13 +56,13 @@ const dataConfiguraton: any = {
   },
   rightAction: {
     texture: "/assets/upArrow.png",
-    scaleX: 0.25,
-    scaleY: 0.25,
+    scaleX: 0.15,
+    scaleY: 0.15,
     label: "rightAction",
     cursor: true,
     desktop: {
-      x: 273,
-      y: 0,
+      x: 350,
+      y: 30,
     },
     mobile: {
       x: 350,
@@ -79,8 +79,8 @@ const dataConfiguraton: any = {
       y: 0, //window.innerHeight / 2,
     },
     mobile: {
-      x: 0,
-      y: 250,
+      x: 10,
+      y: 280,
     },
   },
   rightButton: {
@@ -93,8 +93,8 @@ const dataConfiguraton: any = {
       y: 0,
     },
     mobile: {
-      x: 300,
-      y: 250,
+      x: 330,
+      y: 280,
     },
   },
 
@@ -156,6 +156,15 @@ const GameButton: React.FC = () => {
     if (dataConfiguraton[device]?.container) {
       container.x = dataConfiguraton[device].container.x;
       container.y = dataConfiguraton[device].container.y;
+    } else {
+      dataConfiguraton?.leftButton?.fontStyle?.fontSize &&
+        (dataConfiguraton.leftButton.fontStyle.fontSize = 12);
+      dataConfiguraton?.rightButton?.fontStyle?.fontSize &&
+        (dataConfiguraton.rightButton.fontStyle.fontSize = 12);
+      console.log(
+        "dataConfiguraton.leftAction=>",
+        dataConfiguraton.rightButton
+      );
     }
     setParentConRef(container);
   }, []);

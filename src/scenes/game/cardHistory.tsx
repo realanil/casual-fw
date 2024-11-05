@@ -205,6 +205,9 @@ const CardHistory: React.FC = () => {
             app={app}
             container={parentConRef}
             key={4}
+            height={device == "mobile" ? 120 : 180}
+            width={device == "mobile" ? 400 : 700}
+            maskLeft={device == "mobile" ? 15 : 0}
           />
           {imgs}
         </>
