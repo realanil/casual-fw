@@ -21,6 +21,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     appInit();
     setDevice(isMobileDevice());
   }, [device]);
+
   const appInit = async () => {
     myGlobal.__PIXI_APP__ = app;
     if (typeof window !== "undefined") {

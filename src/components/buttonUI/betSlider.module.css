@@ -1,0 +1,55 @@
+.betSliderContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    margin: 20px 0;
+  }
+  
+  .betSliderLabel {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .betSlider {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 10px;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+    transition: background 0.3s ease;
+  }
+  
+  .betSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #007bff;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .betSlider::-webkit-slider-thumb:hover {
+    background: #0056b3;
+  }
+  
+  .betRange {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+    font-size: 14px;
+  }
+  
+  .betAmount {
+    font-weight: bold;
+    color: #007bff;
+  }
+  

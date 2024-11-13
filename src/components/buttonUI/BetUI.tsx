@@ -7,6 +7,7 @@ interface ButtonPanelProps {
   activeBtn: any;
   device?: string;
   setActiveBtn: (e: any) => any;
+  scaleFactor: any;
 }
 
 interface DataType {
@@ -25,6 +26,7 @@ const BetUI: React.FC<ButtonPanelProps> = ({
   activeBtn,
   setActiveBtn,
   device,
+  scaleFactor,
 }) => {
   const authResponse: any = useAppSelector((state) => state.auth.data);
   const indexBet = authResponse.betLevels.indexOf(authResponse.defaultBetLevel);
@@ -88,7 +90,20 @@ const BetUI: React.FC<ButtonPanelProps> = ({
     dispatch(betUpdate({ bet }), bet);
     setBetText((bet / 100).toFixed(2));
   }, [currentBetIndex]);
-
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    console.log("Enter key was pressed!");
+    // switch (event.key) {
+    //   case "Enter":
+    //     console.log("Enter key was pressed!");
+    //     break;
+    //   case "Escape":
+    //     console.log("Escape key was pressed!");
+    //     break;
+    //   default:
+    //     console.log(`You pressed: ${event.key}`);
+    //     break;
+    // }
+  };
   return device == "mobile" ? (
     <div className="Pane Pane--actions pane-rounded-corners">
       <div className="Pane__inner">
@@ -144,27 +159,60 @@ const BetUI: React.FC<ButtonPanelProps> = ({
       </div>
     </div>
   ) : (
-    <div className={styles.betControls}>
-      <button
-        onClick={() => {
-          handleBetDecrease();
-        }}
-        disabled={!activeBtn.betDec}
-        className={styles.button}
-      >
-        -
-      </button>
-      <span className={styles.betText}> {betText}</span>
-      <button
-        onClick={() => {
-          handleBetIncrease();
-        }}
-        disabled={!activeBtn.betInc}
-        className={styles.button}
-      >
-        +
-      </button>
+    <div
+      className="bg-blue-0 p-0 text-white text-center rounded-lg transform transition-transform duration-300 mr-5"
+      style={{
+        width: "150px",
+        height: "auto",
+        // transform: `scale3d(${scaleFactor}, ${scaleFactor}, 1)`, // Apply dynamic scaling
+      }}
+    >
+      <div className="mt-0">
+        <button
+          className="inline-block mr-1"
+          onClick={handleBetDecrease}
+          disabled={!activeBtn.betDec}
+        >
+          -
+        </button>
+        <span className="inline-block">{betText}</span>
+        <button
+          className="inline-block ml-1"
+          onClick={handleBetIncrease}
+          disabled={!activeBtn.betDec}
+        >
+          +
+        </button>
+      </div>
     </div>
+    // <div
+    //   className="bg-yellow-0 text-white text-center rounded-lg transform transition-transform duration-300 mb-0"
+    //   style={{
+    //     width: "550",
+    //     height: "50px",
+    //     transform: `scale3d(${scaleFactor}, ${scaleFactor}, 1)`, // Apply dynamic scaling
+    //   }}
+    // >
+    //   <div className="ml-10">
+    //     <button
+    //       className="block"
+    //       onKeyDown={handleKeyDown}
+    //       disabled={!activeBtn.betDec}
+    //     >
+    //       -
+    //     </button>
+    //     <button className="block">{betText}</button>
+    //     <button
+    //       className="block"
+    //       onClick={() => {
+    //         handleBetIncrease();
+    //       }}
+    //       disabled={!activeBtn.betInc}
+    //     >
+    //       +
+    //     </button>
+    //   </div>
+    // </div>
   );
 };
 

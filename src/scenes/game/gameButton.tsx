@@ -1,5 +1,5 @@
-import Button from "@/components/core/Button";
 import Sprite from "@/components/core/Sprite";
+import Text from "@/components/core/Text";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
@@ -264,7 +264,7 @@ const GameButton: React.FC = () => {
             cursor={btnSetting?.left}
             onclick={() => onNext("lessOrEqual")}
           />
-          <Button
+          <Text
             {...dataConfiguraton.leftButton}
             {...dataConfiguraton.leftButton[device]}
             title={buttonTexts.left}
@@ -283,7 +283,7 @@ const GameButton: React.FC = () => {
             cursor={btnSetting?.left}
             onclick={() => onNext("greaterOrEqual")}
           />
-          <Button
+          <Text
             {...dataConfiguraton.rightButton}
             {...dataConfiguraton.rightButton[device]}
             title={buttonTexts.right}

@@ -72,9 +72,8 @@ const Button: React.FC<TextProps> = ({
     /*container && container.children.length > 0
       ? container.children[0].addChild(sprite)
       : container.addChild(sprite); // Add sprite to the stage*/
-    // button.addChild(skewText);
-    // pt ? (pt.text = title) : container.addChild(button);
-    pt ? (pt.text = title) : container.addChild(skewText);
+    button.addChild(skewText);
+    pt ? (pt.text = title) : container.addChild(button);
 
     spriteRef.current = button;
     cursor && (skewText.interactive = true);

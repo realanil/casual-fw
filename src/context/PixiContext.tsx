@@ -24,6 +24,8 @@ const PixiProvider: React.FC<PixiProviderProps> = ({
   device,
 }) => {
   const rendererRef = useRef<PIXI.Renderer | null>(null);
+  // const { device, orientation } = useWindowMode();
+  // console.log("useWindowMode=>", device, orientation);
   return (
     <PixiContext.Provider
       value={{

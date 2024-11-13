@@ -22,6 +22,7 @@ const PixiSpine: React.FC<spineInterface> = ({ container, label, x, y }) => {
     spine.label = label;
     spine.x = x;
     spine.y = y;
+    spine.alpha = 0.02;
     // Add the spine to the main view.
     container.addChild(spine);
     spineRef.current = spine;

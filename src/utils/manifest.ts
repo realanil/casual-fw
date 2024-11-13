@@ -313,6 +313,14 @@ const manifest = {
                     alias: 'boySpinAtlas',
                     src: '/animations/spinBoy/spineboy-pma.atlas',
                 },
+                {
+                    alias: 'basegameSpinSkel',
+                    src: '/animations/basegame/basegame.skel',
+                },
+                {
+                    alias: 'basegameSpinAtlas',
+                    src: '/animations/basegame/basegame.atlas',
+                },
 
                 // {
                 //     alias: 'lemon',

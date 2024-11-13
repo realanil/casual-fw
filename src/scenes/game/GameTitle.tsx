@@ -1,13 +1,20 @@
-import Text from "@/components/core/Text";
+import Bitmap from "@/components/core/Bitmap";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
 
+const styles = {
+  fontFamily: "Desyrel",
+  fontSize: 55,
+  align: "left",
+};
 const dataConfiguraton: any = {
   introTitle: {
     title: "Hi-Lo Casual Game!",
+    text: "Hi-Lo Casual Game!",
     label: "gameTitle",
+    style: styles,
     fontStyle: {
       fontFamily: "Arial",
       dropShadow: {
@@ -26,10 +33,10 @@ const dataConfiguraton: any = {
     scaleY: 1,
     desktop: {
       x: -114, //window.innerWidth / 2,
-      y: -332, //window.innerHeight / 2,
+      y: -350, //window.innerHeight / 2,
     },
     mobile: {
-      x: 70,
+      x: 50,
       y: 50,
     },
   },
@@ -65,18 +72,26 @@ const GameTitle: React.FC = () => {
       container.x = dataConfiguraton[device].container.x;
       container.y = dataConfiguraton[device].container.y;
     }
-
+    if (device == "mobile") {
+      dataConfiguraton.introTitle.text = "Hi-Lo Game!";
+    }
     setParentConRef(container);
   }, [app]);
 
   return (
     <>
       {!parentConRef ? null : (
-        <Text
+        // <Text
+        //   {...dataConfiguraton.introTitle}
+        //   {...dataConfiguraton.introTitle[device]}
+        //   app={app}
+        //   container={parentConRef}
+        // />
+        <Bitmap
           {...dataConfiguraton.introTitle}
           {...dataConfiguraton.introTitle[device]}
-          app={app}
           container={parentConRef}
+          app={app}
         />
       )}
     </>

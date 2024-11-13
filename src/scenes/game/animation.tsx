@@ -1,4 +1,3 @@
-import Bitmap from "@/components/core/Bitmap";
 import Spine from "@/components/core/Spine";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
@@ -68,9 +67,9 @@ const Animation: React.FC = () => {
       {!parentConRef ? null : (
         <>
           <Spine {...spineObj} container={parentConRef} />
-          <Bitmap {...bitmapObj} container={parentConRef} app={app} />
+          {/* <Bitmap {...bitmapObj} container={parentConRef} app={app} /> */}
           {/* <Bitmap {...bitmapObj2} container={parentConRef} app={app} /> */}
-          <Spine {...spineObj2} container={parentConRef} />
+          {/* <Spine {...spineObj2} container={parentConRef} /> */}
         </>
       )}
     </>

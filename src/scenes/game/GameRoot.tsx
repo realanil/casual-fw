@@ -8,6 +8,7 @@ import Loading from "../Loading";
 const GameRoot: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [scaleFactor, setScaleFactor] = useState(1);
 
   const [introScreen, setIntroScreen] = useState<boolean>(false);
   const dispatch = useAppDispatch();
@@ -58,15 +59,41 @@ const GameRoot: React.FC = () => {
       },
     });
   };
+
+  // Update the scale factor when the window is resized
+  /*useEffect(() => {
+    const updateScale = () => {
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+
+      // Example scaling logic: Scale the boxes relative to the width of the window.
+      const newScale = Math.max(0.1, Math.min(1, windowWidth / 1200)); // scale between 0.5 and 1.5 based on window width
+
+      setScaleFactor(newScale);
+    };
+
+    // Listen for resize events
+    window.addEventListener("resize", updateScale);
+
+    // Set initial scale
+    updateScale();
+
+    // Cleanup on unmount
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);*/
+
   if (loading) {
     return <Loading progress={progress} />;
   }
   return (
-    <div id="gameCover">
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        {introScreen && <ButtonPanel onSpin={handleSpin} />}
-      </div>
-      <PixiCanvas introScreen={introScreen} setIntroScreen={setIntroScreen} />
+    <div className="min-h-screen flex flex-col justify-center items-center">
+      <main
+        className="flex-grow"
+        style={{ transform: `scale3d(${scaleFactor}, ${scaleFactor}, 1)` }}
+      >
+        <PixiCanvas introScreen={introScreen} setIntroScreen={setIntroScreen} />
+      </main>
+      {introScreen && <ButtonPanel onSpin={handleSpin} />}
     </div>
   );
 };
