@@ -21,7 +21,7 @@ const Mask: React.FC<maskInterface> = ({
   const spriteRef: any = useRef<PIXI.Sprite | null>(null);
   useEffect(() => {
     const mask = new PIXI.Graphics();
-    // mask.beginFill(0xffffff, 2); // Fill color and alpha
+    mask.beginFill("#ccc", 0.5); // Fill color and alpha
     mask.rect(
       maskLeft ? maskLeft : 0,
       0,

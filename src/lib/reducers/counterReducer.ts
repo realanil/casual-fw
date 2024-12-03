@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CounterState {
   value: number;
+  sound: any;
 }
 // Define the initial state using that type
 
 const initialState: CounterState = {
   value: 0,
+  sound: {play: false}
 };
 
 const counterSlice = createSlice({
@@ -25,11 +27,15 @@ const counterSlice = createSlice({
       console.log("pppppppp=>", state, action)
       state.value -= 1;
     },
+    soundPlay(state, action: PayloadAction<any>) {
+      // console.log("pppppppp=>", state, action)
+      state.sound = action.payload;
+    },
     // setCount(state, action: PayloadAction<number>) {
     //   state.value = action.payload;
     // },
   },
 });
 
-export const { increment, decrement, } = counterSlice.actions;
+export const { increment, decrement, soundPlay} = counterSlice.actions;
 export default counterSlice.reducer;

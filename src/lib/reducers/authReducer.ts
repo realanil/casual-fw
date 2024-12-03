@@ -35,7 +35,6 @@ const authSlice = createSlice({
     initialState,
     reducers :{        
         authSuccess(state, action: PayloadAction<any>) {
-            console.log("pppppppp=>", state, action)
             state.data = action.payload;
             state.error = null;
         },

@@ -4,6 +4,7 @@ import Sprite from "@/components/core/Sprite";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import { useAppSelector } from "@/lib/hooks";
+import { isMobile } from "@/utils/deviceDetectionj";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
 const fontStyle = {
@@ -40,8 +41,8 @@ const dataConfiguraton: any = {
     texture: "/assets/deck/1C.png",
     // x: 0,
     // y: 100,
-    scaleX: 0.45,
-    scaleY: 0.45,
+    scaleX: 0.25,
+    scaleY: 0.25,
     // label: "cardImg",
     cursor: false,
     desktop: {
@@ -84,12 +85,12 @@ const dataConfiguraton: any = {
   },
   desktop: {
     container: {
-      x: 960,
-      y: 472.5,
+      x: 0,
+      y: 0,
     },
     mask: {
-      x: -350,
-      y: 120,
+      x: -180,
+      y: 150,
     },
   },
   mobile: {
@@ -103,9 +104,12 @@ const dataConfiguraton: any = {
 interface cardsObject {
   [key: string]: string;
 }
-const CardHistory: React.FC = () => {
-  const width = window.innerWidth;
-  dataConfiguraton.desktop.container.x = width / 2;
+interface InterfaceCard {
+  mainContainer: any;
+}
+const CardHistory: React.FC<InterfaceCard> = ({ mainContainer }) => {
+  // const width = window.innerWidth;
+  // dataConfiguraton.desktop.container.x = width / 2;
 
   const { app, device } = usePixi();
   const containerRef = useRef<PIXI.Container | null>(null);
@@ -124,10 +128,11 @@ const CardHistory: React.FC = () => {
       app,
       containerRef,
       "cardPreviewContainer",
-      null
+      mainContainer
     );
-    const container = continerRef.current;
-    if (dataConfiguraton[device]?.container) {
+    // const container = continerRef.current;
+    const container = continerRef?.childContainerRef?.current;
+    if (dataConfiguraton[device]?.container && container) {
       container.x = dataConfiguraton[device].container.x;
       container.y = dataConfiguraton[device].container.y;
     }
@@ -140,7 +145,7 @@ const CardHistory: React.FC = () => {
   useEffect(() => {
     if (apidata) {
       const modifyArr = [...apidata].reverse();
-      modifyArr.splice(6, modifyArr.length);
+      modifyArr.splice(isMobile() ? 5 : 5, modifyArr.length);
       // console.log("apidata=>", modifyArr);
       setHistory(modifyArr);
     }
@@ -156,8 +161,8 @@ const CardHistory: React.FC = () => {
               {...dataConfiguraton.cardImg}
               {...dataConfiguraton.cardImg[device]}
               label={`hist_${event.c?.card?.value}`}
-              x={device == "mobile" ? -80 * i + 350 : -113 * i + 580}
-              y={5}
+              x={device == "mobile" ? -80 * i + 350 : -70 * i + 300}
+              y={11}
               app={app}
               textureUpdate={`/assets/deck/${event.c?.card?.value}${
                 cardType[event.c?.card?.suit]
@@ -180,9 +185,9 @@ const CardHistory: React.FC = () => {
                   ? "#f20000"
                   : ""
               }
-              x={device == "mobile" ? -80 * i + 350 : -113 * i + 580}
-              y={device == "mobile" ? 90 : 150}
-              width={device == "mobile" ? 60 : 100}
+              x={device == "mobile" ? -80 * i + 350 : -70 * i + 300}
+              y={device == "mobile" ? 90 : 90}
+              width={device == "mobile" ? 60 : 55}
               label={"rightButton"}
               app={app}
               container={parentConRef && parentConRef.children[0]}
@@ -205,8 +210,8 @@ const CardHistory: React.FC = () => {
             app={app}
             container={parentConRef}
             key={4}
-            height={device == "mobile" ? 120 : 180}
-            width={device == "mobile" ? 400 : 700}
+            height={device == "mobile" ? 120 : 110}
+            width={device == "mobile" ? 400 : 369}
             maskLeft={device == "mobile" ? 15 : 0}
           />
           {imgs}

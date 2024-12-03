@@ -32,8 +32,8 @@ const dataConfiguraton: any = {
     scaleX: 1,
     scaleY: 1,
     desktop: {
-      x: -114, //window.innerWidth / 2,
-      y: -350, //window.innerHeight / 2,
+      x: -200, //window.innerWidth / 2,
+      y: -450, //window.innerHeight / 2,
     },
     mobile: {
       x: 50,
@@ -42,17 +42,20 @@ const dataConfiguraton: any = {
   },
   desktop: {
     container: {
-      x: 960,
-      y: 472.5,
+      x: 0,
+      y: 0,
     },
   },
 };
+interface interfaceTitle {
+  mainContainer: any;
+}
 
-const GameTitle: React.FC = () => {
-  const width = window.innerWidth;
+const GameTitle: React.FC<interfaceTitle> = ({ mainContainer }) => {
+  // const width = window.innerWidth;
   // const height = window.innerHeight;
   // const scale = Math.min(width / 1170, height / 940); // Adjust based on your design
-  dataConfiguraton.desktop.container.x = width / 2;
+  // dataConfiguraton.desktop.container.x = width / 2;
   const { app, device } = usePixi();
   // const [deviceConfig] = useState(dataConfiguraton[device]);
   const containerRef = useRef<PIXI.Container | null>(null);
@@ -64,11 +67,11 @@ const GameTitle: React.FC = () => {
       app,
       containerRef,
       "GameTitle",
-      null
+      mainContainer
     );
-    // console.log("data.containerRef=>", continerRef.current);
-    const container = continerRef.current;
-    if (dataConfiguraton[device]?.container) {
+    // console.log("data.containerRef=>", continerRef.parentContainer.current);
+    const container = continerRef?.childContainerRef?.current;
+    if (dataConfiguraton[device]?.container && container) {
       container.x = dataConfiguraton[device].container.x;
       container.y = dataConfiguraton[device].container.y;
     }

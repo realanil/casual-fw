@@ -1,11 +1,11 @@
 import Spine from "@/components/core/Spine";
 import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
+
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
-
 const spineObj = {
-  x: 500,
+  x: 400,
   y: 800,
   scaleX: 1,
   scaleY: 1,
@@ -48,18 +48,19 @@ const Animation: React.FC = () => {
   const app = usePixi().app;
   const containerRef = useRef<PIXI.Container | null>(null);
   const [parentConRef, setParentConRef] = useState<PIXI.Container | null>(null);
-
   useEffect(() => {
     // Check if the container already exists
-    const continerRef: any = createContainer(
-      PIXI,
-      app,
-      containerRef,
-      "Animation",
-      null
-    );
-    const container = continerRef.current;
-    setParentConRef(container);
+    if (typeof window !== "undefined") {
+      const continerRef: any = createContainer(
+        PIXI,
+        app,
+        containerRef,
+        "Animation",
+        null
+      );
+      const container = continerRef.current;
+      setParentConRef(container);
+    }
   }, []);
 
   return (

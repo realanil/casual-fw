@@ -7,8 +7,8 @@ import { useEffect, useRef, useState } from "react";
 const dataConfiguraton: any = {
   cardImg: {
     texture: "/assets/deck/8C.png",
-    scaleX: 1,
-    scaleY: 1,
+    scaleX: 1.4,
+    scaleY: 1.4,
     label: "cardImg",
     cursor: false,
     mobile: {
@@ -16,23 +16,26 @@ const dataConfiguraton: any = {
       y: 150,
     },
     desktop: {
-      x: -50,
-      y: -250,
+      x: -150,
+      y: -300,
     },
   },
   desktop: {
     container: {
-      x: 960,
-      y: 472.5,
+      x: 0,
+      y: 0,
     },
   },
 };
 interface cardsObject {
   [key: string]: string;
 }
-const Card: React.FC = () => {
-  const width = window.innerWidth;
-  dataConfiguraton.desktop.container.x = width / 2;
+interface interfaceGameScene {
+  mainContainer: any;
+}
+const Card: React.FC<interfaceGameScene> = ({ mainContainer }) => {
+  // const width = window.innerWidth;
+  // dataConfiguraton.desktop.container.x = width / 2;
   const { app, device } = usePixi();
   const [cardType] = useState<cardsObject>({
     clubs: "C",
@@ -53,10 +56,12 @@ const Card: React.FC = () => {
       app,
       containerRef,
       "CardContainer",
-      null
+      mainContainer
     );
-    const container = continerRef.current;
-    if (dataConfiguraton[device]?.container) {
+    // const container = continerRef.current;
+    const container = continerRef?.childContainerRef?.current;
+
+    if (dataConfiguraton[device]?.container && container) {
       container.x = dataConfiguraton[device].container.x;
       container.y = dataConfiguraton[device].container.y;
     }

@@ -31,8 +31,8 @@ const dataConfiguraton: any = {
     label: "rightArrow",
     cursor: true,
     desktop: {
-      x: 200,
-      y: -247.5,
+      x: 150,
+      y: -300,
     },
     mobile: {
       x: 320,
@@ -46,8 +46,8 @@ const dataConfiguraton: any = {
     label: "leftAction",
     cursor: true,
     desktop: {
-      x: -343,
-      y: 30,
+      x: -250,
+      y: 0,
     },
     mobile: {
       x: 20,
@@ -61,8 +61,8 @@ const dataConfiguraton: any = {
     label: "rightAction",
     cursor: true,
     desktop: {
-      x: 350,
-      y: 30,
+      x: 180,
+      y: 0,
     },
     mobile: {
       x: 350,
@@ -75,8 +75,8 @@ const dataConfiguraton: any = {
     scaleX: 1,
     scaleY: 1,
     desktop: {
-      x: -370, //window.innerWidth / 2,
-      y: -20, //window.innerHeight / 2,
+      x: -250, //window.innerWidth / 2,
+      y: -70, //window.innerHeight / 2,
     },
     mobile: {
       x: 10,
@@ -89,8 +89,8 @@ const dataConfiguraton: any = {
     scaleX: 1,
     scaleY: 1,
     desktop: {
-      x: 340,
-      y: -20,
+      x: 180,
+      y: -70,
     },
     mobile: {
       x: 330,
@@ -100,8 +100,8 @@ const dataConfiguraton: any = {
 
   desktop: {
     container: {
-      x: 960,
-      y: 472.5,
+      x: 0,
+      y: 0,
     },
   },
 };
@@ -121,9 +121,12 @@ interface buttonTextsInterface {
   right: string;
   bgHeight: number;
 }
-const GameButton: React.FC = () => {
-  const width = window.innerWidth;
-  dataConfiguraton.desktop.container.x = width / 2;
+interface interfaceGameButton {
+  mainContainer: any;
+}
+const GameButton: React.FC<interfaceGameButton> = ({ mainContainer }) => {
+  // const width = window.innerWidth;
+  // dataConfiguraton.desktop.container.x = width / 2;
   const { app, device } = usePixi();
   // const [deviceConfig, setDeviceConfig] = useState(dataConfiguraton[device]);
   const [btnSetting, setBtnSetting] = useState<btnInterface>({
@@ -138,8 +141,8 @@ const GameButton: React.FC = () => {
   const apiData: any = useAppSelector((state) => state.bet);
   const dispatch = useAppDispatch();
   const [buttonTexts, setButtonTexts] = useState<buttonTextsInterface>({
-    left: "Same or Lower",
-    right: "Same or Higher",
+    left: "Same or\n Lower",
+    right: "Same or\n Higher",
     bgHeight: 50,
   });
   //
@@ -150,10 +153,11 @@ const GameButton: React.FC = () => {
       app,
       containerRef,
       "cardActionContainer",
-      null
+      mainContainer
     );
-    const container = continerRef.current;
-    if (dataConfiguraton[device]?.container) {
+    // const container = continerRef.current;
+    const container = continerRef?.childContainerRef?.current;
+    if (dataConfiguraton[device]?.container && container) {
       container.x = dataConfiguraton[device].container.x;
       container.y = dataConfiguraton[device].container.y;
     } else {
@@ -181,7 +185,7 @@ const GameButton: React.FC = () => {
   }, [apiData.data]);
 
   useEffect(() => {
-    console.log("responseCard=>", apiData.responseCard);
+    // console.log("responseCard=>", apiData.responseCard);
     apiData.responseCard.round.status == "completed" &&
       setBtnSetting((prevState: any) => ({
         ...prevState,
@@ -196,19 +200,19 @@ const GameButton: React.FC = () => {
           setButtonTexts((prevState) => ({
             ...prevState,
             left: "Same",
-            right: "Same or Higher",
+            right: "Same or\n Higher",
           }));
         } else if (event.c?.card?.value == 13) {
           setButtonTexts((prevState) => ({
             ...prevState,
-            left: "Same or Lower",
+            left: "Same or\n Lower",
             right: "Same",
           }));
         } else {
           setButtonTexts((prevState) => ({
             ...prevState,
-            left: "Same or Lower",
-            right: "Same or Higher",
+            left: "Same or\n Lower",
+            right: "Same or\n Higher",
           }));
         }
         event.c?.choices &&

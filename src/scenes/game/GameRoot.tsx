@@ -4,6 +4,9 @@ import { useAppDispatch } from "@/lib/hooks";
 import { loadAssets } from "@/utils/assetLoader";
 import { useEffect, useState } from "react";
 import Loading from "../Loading";
+// const PixiCanvas = dynamic(() => import("@/components/core/PixiCanvas"), {
+//   ssr: true,
+// });
 
 const GameRoot: React.FC = () => {
   const [loading, setLoading] = useState(true);

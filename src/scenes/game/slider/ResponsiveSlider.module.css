@@ -1,0 +1,23 @@
+.sliderContainer {
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  z-index: 10;
+  top: 311px;
+}
+.slides {
+  display: flex;
+  transition: transform 1s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  text-align: center;
+  background-color: #f4f4f4;
+  padding: 50px;
+}
+
+.slide h2 {
+  font-size: 2rem;
+  color: #333;
+}

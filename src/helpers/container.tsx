@@ -13,6 +13,7 @@ export function createContainer(
     container.label = label;
     containerRef.current = container;
     // Add the container to the application's stage
+    // console.log("app=>", app, parentContainer);
     parentContainer
       ? parentContainer.addChild(container)
       : app.stage.addChild(container);

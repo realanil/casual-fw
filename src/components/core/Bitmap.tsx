@@ -43,7 +43,7 @@ const Bitmap: React.FC<BitmapProps> = ({
       //   style: style,
       // });
       bitmapFontText.label = label;
-      bitmapFontText.name = label;
+      // bitmapFontText.name = label;
       bitmapFontText.x = x;
       bitmapFontText.y = y;
 

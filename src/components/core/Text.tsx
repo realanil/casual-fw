@@ -53,7 +53,7 @@ const Text: React.FC<TextProps> = ({
   useEffect(() => {
     const pt: any = app.stage.getChildByLabel(label);
     // Create sprite on mount
-    console.log("fontStyle=>", fontStyle);
+    // console.log("fontStyle=>", fontStyle);
     const skewStyle = new PIXI.TextStyle(fontStyle);
     const skewText: any = new PIXI.Text({
       text: title,

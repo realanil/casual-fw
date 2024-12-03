@@ -1,0 +1,203 @@
+/* General Styles for Panel */
+.panel {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+      z-index: 1;
+      background: radial-gradient(#020808, transparent 100%);
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      color: #fff;
+  }
+  
+  .buttonControls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .balance {
+    display: flex;
+      /* justify-content: space-between;
+      width: 40%; */
+  }
+  
+  .betText, .winText {
+    font-size: 14px;
+      margin-left: 12px;
+  }
+  
+  .buttonInfo {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* button {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  } */
+  
+  .musicButton, .infoButton, .homeButton {
+    background-color: #007BFF;
+    color: white;
+    border-radius: 4px;
+  }
+  
+  .musicButton:hover, .infoButton:hover, .homeButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .spinControl {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .betControls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .spinButton {
+    background-color: #28a745;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .spinButton:hover {
+    background-color: #218838;
+  }
+  
+  /* Responsive Design - Mobile-first */
+  
+  /* Large screen (desktop) adjustments */
+  @media (min-width: 1024px) {
+    .panel {
+      padding: 40px;
+    }
+  
+    .buttonControls {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  
+    .balance {
+      width: 30%;
+    }
+  
+    .buttonInfo {
+      gap: 15px;
+    }
+  
+    .spinControl {
+      flex-direction: row;
+    }
+  
+    .betControls {
+      flex-direction: row;
+    }
+  }
+  
+  /* Medium screens (tablet and portrait mode) adjustments */
+  @media (max-width: 1024px) and (orientation: portrait) {
+    .panel {
+      padding: 20px;
+    }
+  
+    .buttonControls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .balance {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  
+    .buttonInfo {
+      flex-direction: column;
+      width: 100%;
+      justify-content: space-evenly;
+      margin-bottom: 15px;
+    }
+  
+    .spinControl {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .betControls {
+      width: 100%;
+      align-items: center;
+      gap: 15px;
+    }
+  
+    .spinButton {
+      width: 100%;
+      font-size: 14px;
+      padding: 12px;
+    }
+  
+    .musicButton, .infoButton, .homeButton {
+      width: 100%;
+      font-size: 12px;
+      padding: 10px;
+    }
+  }
+  
+  /* Small screens (mobile) adjustments */
+  @media (max-width: 480px) {
+    .panel {
+      padding: 10px;
+    }
+  
+    .buttonControls {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .balance {
+      font-size: 12px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .buttonInfo button {
+      width: 100%;
+      font-size: 12px;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+  
+    .spinControl {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .betControls {
+      width: 100%;
+      align-items: center;
+      gap: 12px;
+    }
+  
+    .spinButton {
+      font-size: 14px;
+      padding: 10px;
+      width: 100%;
+    }
+  
+    .musicButton, .infoButton, .homeButton {
+      width: 100%;
+      font-size: 12px;
+      padding: 8px;
+    }
+  }
+  

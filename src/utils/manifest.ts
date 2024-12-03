@@ -57,6 +57,16 @@ const manifest = {
 
         },
         {
+            name: 'sound',
+            assets: [
+                {
+                    alias: 'soundAll',
+                    src: '/sound/sound.mp3',
+                    
+                },
+            ]
+        },
+        {
             name: 'game-screen',
             assets: [
                 {

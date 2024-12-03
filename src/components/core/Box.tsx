@@ -35,6 +35,7 @@ interface TextProps {
   scaleY: number; // Scale in Y direction
   bgColor?: string;
   width?: string;
+  height?: string;
   onclick?: (() => void) | undefined;
 }
 
@@ -51,6 +52,8 @@ const Box: React.FC<TextProps> = ({
   scaleY,
   bgColor,
   width,
+  height,
+  onclick,
 }) => {
   const spriteRef = useRef<PIXI.Graphics | null>(null);
   // const { scaleX, scaleY, fontStyle } = TextStyle;
@@ -59,9 +62,9 @@ const Box: React.FC<TextProps> = ({
     const button: any = new PIXI.Graphics();
 
     // Draw the button
-    console.log("bgColor=>", bgColor);
+    console.log("bgColor=>", container);
     button.beginFill(bgColor);
-    button.drawRect(x, y, width ? width : 100, 20);
+    button.drawRect(x, y, width ? width : 100, height ? height : 10);
     button.endFill();
 
     button.interactive = cursor;
@@ -78,7 +81,8 @@ const Box: React.FC<TextProps> = ({
         app.renderer.canvas.style.cursor = "default"; // Change back to default cursor
       });
     // Attach the custom click event function
-    button.on("pointerdown", () => {
+    button.on("pointerdown", (ev: MouseEvent) => {
+      // var this: Window & typeof globalThis
       onclick && onclick(); // Call the passed function
     });
     return () => {

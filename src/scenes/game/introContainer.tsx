@@ -3,13 +3,20 @@ import { usePixi } from "@/context/PixiContext";
 import { createContainer } from "@/helpers/container";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
+import IntroBox from "./IntroBox";
+import IntroSlider from "./IntroSlider";
 
 // Function to create the intro screen
 interface IntroContainerInterface {
   introScreen: boolean;
   setIntroScreen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSlider?: boolean;
 }
-
+const styles = {
+  fontFamily: "Desyrel",
+  fontSize: 55,
+  align: "left",
+};
 const dataConfiguraton: any = {
   introScreenSprite: {
     texture: "/assets/introScreen.webp",
@@ -46,8 +53,8 @@ const dataConfiguraton: any = {
     scaleX: 1,
     scaleY: 1,
     desktop: {
-      x: -100, //window.innerWidth / 2,
-      y: -275, //window.innerHeight / 2,
+      x: -143, //window.innerWidth / 2,
+      y: -400, //window.innerHeight / 2,
     },
     mobile: {
       x: 70,
@@ -74,14 +81,15 @@ const dataConfiguraton: any = {
     scaleX: 1,
     scaleY: 1,
     desktop: {
-      x: -50,
-      y: 100,
+      x: -78,
+      y: 250,
     },
     mobile: {
       x: 120,
       y: 500,
     },
   },
+
   desktop: {
     container: {
       x: 960,
@@ -89,16 +97,23 @@ const dataConfiguraton: any = {
     },
   },
 };
-
+const boxes: PIXI.Container[] = [];
+let firstTime: boolean = true;
 const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
+  const { isSlider } = props;
+  const { app, device } = usePixi();
   const width = window.innerWidth;
   // const height = window.innerHeight;
   // const scale = Math.min(width / 1170, height / 940); // Adjust based on your design
-  dataConfiguraton.desktop.container.x = width / 2;
-  const { app, device } = usePixi();
+  dataConfiguraton.desktop.container.x = app.renderer.width / 2;
+  dataConfiguraton.desktop.container.y = app.renderer.height / 2;
+
   // const [deviceConfig] = useState(dataConfiguraton[device]);
   const containerRef = useRef<PIXI.Container | null>(null);
   const [parentConRef, setParentConRef] = useState<PIXI.Container | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0); // Keeps track of the current slider index
+  // const [isSlider, setIsSlider] = useState<boolean>(false);
+  //!
   useEffect(() => {
     // Check if the container already exists
     const continerRef: any = createContainer(
@@ -108,14 +123,19 @@ const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
       "GameIntro",
       null
     );
-    // console.log("data.containerRef=>", continerRef.current);
-    const container = continerRef.current;
-    if (dataConfiguraton[device]?.container) {
+    const container = continerRef?.current;
+    if (dataConfiguraton[device]?.container && container) {
       container.x = dataConfiguraton[device].container.x;
       container.y = dataConfiguraton[device].container.y;
     }
-
     setParentConRef(container);
+    // Cleanup on component unmount
+    return () => {
+      console.log("unmount");
+      continerRef.current?.destroy(true, { children: true });
+    };
+
+    //!SECTION
   }, [app]);
 
   const clickContinueBtn = () => {
@@ -123,7 +143,40 @@ const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
     app.stage.removeChild(container); // Remove intro screen
     props.setIntroScreen(true);
   };
-  console.log("ttttttttt=>", { ...dataConfiguraton.introTitle });
+
+  // const handleResize = () => {
+  //   console.log("window.innerWidth=>", window.innerWidth);
+  //   if (window.innerWidth <= 963) {
+  //     setIsSlider(true);
+  //   } else {
+  //     setIsSlider(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   console.log("window.innerWidth=>", window.innerWidth);
+  //   window.addEventListener("resize", handleResize);
+  //   if (window.innerWidth <= 963) {
+  //     setIsSlider(true);
+  //   } else {
+  //     setIsSlider(false);
+  //   }
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //     app.destroy(true, { children: true });
+  //   };
+  // }, []);
+  console.log("isSlider=>", isSlider);
+  const contentHeading = ["Bet", "Choose", "Win"];
+  const contentDesc = [
+    "Press BET to play with the displayed card!",
+    "Make your choice among the availale options to guess what the next card will be!",
+    "Collect your accumulated winngins at any time!",
+  ];
+  const images = [
+    "/assets/deck/1C.png", // Add the actual image paths
+    "/assets/deck/4C.png",
+    "/assets/deck/7C.png",
+  ];
   return (
     <>
       {!parentConRef ? null : (
@@ -135,6 +188,30 @@ const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
             app={app}
             container={parentConRef}
           />
+          {isSlider && (
+            <IntroSlider
+              container={parentConRef}
+              currentIndex={currentIndex}
+              setCurrentIndex={setCurrentIndex}
+              introScreen={false}
+              isSlider={isSlider}
+              app={app}
+              contentHeading={contentHeading}
+              contentDesc={contentDesc}
+            />
+          )}
+          {!isSlider && (
+            <IntroBox
+              container={parentConRef}
+              currentIndex={currentIndex}
+              setCurrentIndex={setCurrentIndex}
+              introScreen={true}
+              isSlider={isSlider}
+              app={app}
+              contentHeading={contentHeading}
+              contentDesc={contentDesc}
+            />
+          )}
           <Text
             {...dataConfiguraton.continueBtn}
             {...dataConfiguraton.continueBtn[device]}
