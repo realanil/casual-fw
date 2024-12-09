@@ -131,8 +131,8 @@ const IntroContainer: React.FC<IntroContainerInterface> = (props: any) => {
     setParentConRef(container);
     // Cleanup on component unmount
     return () => {
-      console.log("unmount");
-      continerRef.current?.destroy(true, { children: true });
+      console.log("unmount introcontainer");
+      // continerRef.current?.destroy(true, { children: true });
     };
 
     //!SECTION

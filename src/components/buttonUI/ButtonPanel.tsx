@@ -3,10 +3,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { playSound, stopSound } from "@/lib/soundControl";
 import useWindowSize from "@/scenes/game/hooks/useWindowSize";
 import React, { useEffect, useState } from "react";
-import BalanceSection from "./BalanceSection";
-import BetControl from "./BetControl";
-import BetSection from "./BetSection";
-import HamburgerSection from "./HamburgerSection";
+import DesktopButtonUI from "./DesktopButtonUI";
+import MobileButtonUI from "./MobileButtonUI";
 import Modal from "./Modal";
 interface ButtonPanelProps {
   onSpin: () => void;
@@ -157,23 +155,6 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
     // }
   };
 
-  const toggleMusic = (
-    soundId: string = "",
-    soundSprite: string = "",
-    loop: boolean = false,
-    valume: number = 1
-  ) => {
-    // if (musicPlaying) {
-    // } else {
-    // }
-    // dispatch({
-    //   type: "counter/soundAsync",
-    //   payload: { sound: !musicPlaying },
-    // });
-    // !musicPlaying && playSound(soundId, soundSprite, loop, valume); // Play Sound
-    // musicPlaying && stopSound(soundId); // Stop Sound
-    // setMusicPlaying(!musicPlaying);
-  };
   const soundAction = (
     e: any,
     soundId: string = "",
@@ -234,7 +215,7 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
   //!
 
   // Open the modal
-  const openModal = () => {
+  const openModal: any = () => {
     setIsModalOpen(true);
   };
 
@@ -265,91 +246,30 @@ const ButtonPanel: React.FC<ButtonPanelProps> = ({
         : false
     );
   };
+  const allAction: any = {
+    activeBtn,
+    onBet,
+    clickSound,
+    onCollectAmount,
+    collectAmount,
+    isPortrait,
+    win,
+    setActiveBtn,
+    scaleFactor,
+    soundAction,
+    musicPlaying,
+    soundPlaying,
+    openModal,
+  };
   return (
     <>
+      {/* <TestUI/> */}
+
       <Modal isOpen={isModalOpen} closeModal={closeModal} />
       {isPortrait == true ? (
-        <div
-          className="fixed bottom-0 left-0 right-0 bg-black z-10"
-          style={{
-            width: "auto",
-            height: "auto",
-            // marginLeft: "150px",
-            // transform: `scale3d(${scaleFactor}, ${scaleFactor}, 1)`, // Apply dynamic scaling
-          }}
-        >
-          <div className="flex flex-col sm:flex-row justify-center gap-1 sm:gap-6 mt-1 sm:mt-20">
-            {/* <!-- Bet Button Box --> */}
-            <BetSection
-              activeBtn={activeBtn}
-              onBet={onBet}
-              playSound={clickSound}
-              onCollectAmount={onCollectAmount}
-              collectAmount={collectAmount}
-              isPortrait={isPortrait}
-            />
-            {/* <!-- Demo Balance Box --> */}
-            <BalanceSection win={win} isPortrait={isPortrait} />
-            {/* <!-- Bet Adjuster Box --> */}
-            <BetControl
-              activeBtn={activeBtn}
-              setActiveBtn={setActiveBtn}
-              scaleFactor={scaleFactor}
-              isPortrait={isPortrait}
-              soundAction={soundAction}
-            />
-
-            {/* <!-- Links Box --> */}
-            <HamburgerSection
-              soundAction={soundAction}
-              musicPlaying={musicPlaying}
-              soundPlaying={soundPlaying}
-              openModal={openModal}
-              isPortrait={isPortrait}
-            />
-          </div>
-        </div>
+        <MobileButtonUI {...allAction} />
       ) : (
-        <div
-          className="fixed flex bottom-0 justify-center w-full bg-gray-900 gap-6 mt-0 p-5 z-10"
-          style={{
-            width: "auto",
-            height: "auto",
-            // marginLeft: "150px",
-            transformOrigin: "bottom",
-            transform: `scale3d(${scaleFactor}, ${scaleFactor}, 1)`, // Apply dynamic scaling
-          }}
-        >
-          <div className="mb-1">
-            {/* Box Section at the Top */}
-            <div className="flex justify-center gap-0 mt-4">
-              {/* Box 1 */}
-              <BalanceSection win={win} />
-              {/* Box 2 */}
-              <BetControl
-                activeBtn={activeBtn}
-                setActiveBtn={setActiveBtn}
-                scaleFactor={scaleFactor}
-                soundAction={soundAction}
-              />
-              <BetSection
-                activeBtn={activeBtn}
-                onBet={onBet}
-                playSound={clickSound}
-                onCollectAmount={onCollectAmount}
-                collectAmount={collectAmount}
-              />
-              {/* Box 3 */}
-              <HamburgerSection
-                soundAction={soundAction}
-                musicPlaying={musicPlaying}
-                soundPlaying={soundPlaying}
-                openModal={openModal}
-              />
-            </div>
-          </div>
-          {/* Box Section at the Bottom */}
-        </div>
+        <DesktopButtonUI {...allAction} />
       )}
     </>
   );

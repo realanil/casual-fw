@@ -94,14 +94,24 @@ const IntroSlider: React.FC<IntroSliderInterface> = ({
     }
     return () => {
       console.log("unmount");
-      const GameIntro = app.stage.getChildByLabel("GameIntro");
       const IntroSlider = GameIntro?.getChildByLabel("IntroSlider");
-      const elementsToKill = contentHeading.map((label) =>
-        IntroSlider?.getChildByLabel(label)
-      );
-      elementsToKill.forEach((element) => {
-        if (element) gsap.killTweensOf(element);
-      });
+      if (IntroSlider) {
+        const dis_1 = IntroSlider.getChildByLabel("Bet");
+        const dis_2 = IntroSlider.getChildByLabel("Choose");
+        const dis_3 = IntroSlider.getChildByLabel("Win");
+        if (dis_1) gsap.killTweensOf(dis_1);
+        if (dis_2) gsap.killTweensOf(dis_2);
+        if (dis_3) gsap.killTweensOf(dis_3);
+      }
+
+      // const GameIntro = app.stage.getChildByLabel("GameIntro");
+      // const IntroSlider = GameIntro?.getChildByLabel("IntroSlider");
+      // const elementsToKill = contentHeading.map((label) =>
+      //   IntroSlider?.getChildByLabel(label)
+      // );
+      // elementsToKill.forEach((element) => {
+      //   if (element) gsap.killTweensOf(element);
+      // });
     };
   }, []);
 

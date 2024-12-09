@@ -1,5 +1,4 @@
 import BoxWithTitileAndDesc from "@/components/core/BoxWithTitileAndDesc";
-import Text from "@/components/core/Text";
 import { createContainer } from "@/helpers/container";
 import * as PIXI from "pixi.js";
 import { useEffect, useRef, useState } from "react";
@@ -113,33 +112,53 @@ const IntroBox: React.FC<IntroSliderInterface> = (props: any) => {
       {parentConRef
         ? contentHeading.map((str: string, key: number) => {
             return (
-              <BoxWithTitileAndDesc
-                key={`box-${key}`}
-                {...dataConfiguraton.boxDesign}
-                {...dataConfiguraton.boxDesign["desktop"]}
-                title={str}
-                labelMain={`StaticBox-${key}`}
-                desc={contentDesc[key]}
-                bgColor={"0x3498db"}
-                visible={true}
-                x={-200 * key}
-                y={0}
-                x_desc={-200 * key}
-                y_desc={400}
-                bgWidth={boxWidth + 10}
-                bgHeight={boxHeight}
-                label={`box-${key}`}
-                app={app}
-                container={parentConRef}
-                cursor={false}
-                color={`#2d3663`}
-              >
-                <Text
+              <>
+                <BoxWithTitileAndDesc
+                  key={`box-${key}`}
                   {...dataConfiguraton.boxDesign}
                   {...dataConfiguraton.boxDesign["desktop"]}
                   title={str}
+                  labelMain={`StaticBox-${key}`}
+                  desc={contentDesc[key]}
+                  bgColor={"0x3498db"}
+                  visible={true}
+                  x={-200 * key}
+                  y={0}
+                  x_desc={-200 * key}
+                  y_desc={400}
+                  bgWidth={boxWidth + 10}
+                  bgHeight={boxHeight}
+                  label={`box-${key}`}
+                  app={app}
+                  container={parentConRef}
+                  cursor={false}
+                  color={`#2d3663`}
+                ></BoxWithTitileAndDesc>
+                {/* <Text
+                  {...dataConfiguraton.boxDesign}
+                  {...dataConfiguraton.boxDesign["desktop"]}
+                  container={parentConRef}
+                  app={app}
+                  title={str}
+                  label={`static-${str}`}
+                  x={-400 * key + 120}
+                  y={0}
                 />
-              </BoxWithTitileAndDesc>
+                <Text
+                  {...dataConfiguraton.boxDesign}
+                  {...dataConfiguraton.boxDesign["desktop"]}
+                  fontStyle={{
+                    ...dataConfiguraton.boxDesign.fontStyle,
+                    ...{ fontSize: 24, align: "left" },
+                  }}
+                  container={parentConRef}
+                  app={app}
+                  title={contentDesc[key]}
+                  label={`static-desc-${str}`}
+                  x={-400 * key + 0}
+                  y={400}
+                /> */}
+              </>
             );
           })
         : null}
